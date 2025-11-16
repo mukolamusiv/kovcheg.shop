@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasScaledAttributes;
 use Illuminate\Database\Eloquent\Model;
 
 use Picqer\Barcode\BarcodeGeneratorPNG;
@@ -12,6 +13,12 @@ use Picqer\Barcode\Renderers\JpgRenderer;
 
 class Material extends Model
 {
+
+    use HasScaledAttributes;
+
+    protected $scaled = ['stock_quantity', 'cost_per_unit'];
+
+
     protected $fillable = [
         'name',
         'slug',
@@ -26,32 +33,45 @@ class Material extends Model
         'barcode_image',
     ];
 
+    //public $centimeters = $this->getRawOriginal('stock_quantity');
+
+
+    // public function rawData()
+    // {
+    //    return $this->getRawOriginal('stock_quantity');
+    // }
 
         // Accessor: для відображення користувачу (см → м)
-    public function getStockQuantityAttribute($value)
+    // public function getStockQuantityAttribute($value)
+    // {
+    //     return $value / 100; // користувач бачить в метрах
+    // }
+
+
+    public function cost_per_all()
     {
-        return $value / 100; // користувач бачить в метрах
+        return $this->raw('stock_quantity') * $this->raw('cost_per_unit') / 10000;
     }
 
-    // Mutator: при збереженні від користувача (м → см)
-    public function setStockQuantityAttribute($value)
-    {
-        $this->attributes['stock_quantity'] = (int) round($value * 100);
-    }
+    // // Mutator: при збереженні від користувача (м → см)
+    // public function setStockQuantityAttribute($value)
+    // {
+    //     $this->attributes['stock_quantity'] = (int) round($value * 100);
+    // }
 
 
+    // // Accessor: для відображення користувачу (см → м)
+    // public function getCostPerUnitAttribute($value)
+    // {
+    //     return $value / 100; // користувач бачить в метрах
+    // }
 
-    // Accessor: для відображення користувачу (см → м)
-    public function getCostPerUnitAttribute($value)
-    {
-        return $value / 100; // користувач бачить в метрах
-    }
+    // // Mutator: при збереженні від користувача (м → см)
+    // public function setCostPerUnitAttribute($value)
+    // {
+    //     $this->attributes['cost_per_unit'] = (int) round($value * 100);
+    // }
 
-    // Mutator: при збереженні від користувача (м → см)
-    public function setCostPerUnitAttribute($value)
-    {
-        $this->attributes['cost_per_unit'] = (int) round($value * 100);
-    }
 
     protected static function boot()
     {

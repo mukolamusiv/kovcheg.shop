@@ -20,6 +20,11 @@ class ViewInvoice extends ViewRecord
                 ->button()
                 ->color('success')
                 ->action(fn () => $this->payInvoice()),
+            Action::make('recalculate_total_amount')
+                ->label('Перерахувати суму накладної')
+                ->button()
+                ->color('success')
+                ->action(fn () => $this->record->updateCalculation()),
         ];
     }
 }

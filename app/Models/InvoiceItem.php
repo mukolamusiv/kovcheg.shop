@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\HasScaledAttributes;
 use Illuminate\Database\Eloquent\Model;
 
 class InvoiceItem extends Model
 {
+
+     use HasScaledAttributes;
+
+    protected $scaled = ['quantity', 'price_per_unit', 'total_price'];
+
     protected $fillable = [
         'invoice_id',
         'material_id',
@@ -20,11 +26,54 @@ class InvoiceItem extends Model
         parent::boot();
 
         static::creating(function ($item) {
-            $item->price_per_unit = $item->material->cost_per_unit;
-            $item->total_price = ($item->quantity * 100) * $item->price_per_unit / 100;
+            $item->price_per_unit = $item->material->price_per_unit;
+            $item->total_price = ($item->quantity * 100) * $item->price_per_unit / 10000;
+          //  dd($item->total_price, $item->quantity, $item->price_per_unit);
         });
 
     }
+
+    //     // Mutator: при збереженні від користувача (м → см)
+    // public function setQuantityAttribute($value)
+    // {
+    //     $this->attributes['quantity'] = (int) round($value * 100);
+    // }
+
+
+    // // Accessor: для відображення користувачу (см → м)
+    // public function getQuantityAttribute($value)
+    // {
+    //     return $value / 100; // користувач бачить в метрах
+    // }
+
+
+
+    //         // Mutator: при збереженні від користувача (м → см)
+    // public function setPricePerUnitAttribute($value)
+    // {
+    //     $this->attributes['price_per_unit'] = (int) round($value * 100);
+    // }
+
+
+    // // Accessor: для відображення користувачу (см → м)
+    // public function getPricePerUnitAttribute($value)
+    // {
+    //     return $value / 100; // користувач бачить в метрах
+    // }
+
+
+    //             // Mutator: при збереженні від користувача (м → см)
+    // public function setTotalPriceAttribute($value)
+    // {
+    //     $this->attributes['total_price'] = (int) round($value * 100);
+    // }
+
+
+    // // Accessor: для відображення користувачу (см → м)
+    // public function getTotalPriceAttribute($value)
+    // {
+    //     return $value / 100; // користувач бачить в метрах
+    // }
 
 
     public function invoice()

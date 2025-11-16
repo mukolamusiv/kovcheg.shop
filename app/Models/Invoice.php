@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\HasScaledAttributes;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
+
+     use HasScaledAttributes;
+
+    protected $scaled = ['total_amount'];
+
     protected $fillable = [
         'invoice_number',
         'invoice_date',
@@ -32,6 +38,20 @@ class Invoice extends Model
         });
     }
 
+
+    //     // Mutator: при збереженні від користувача (м → см)
+    // public function setTotalAmountAttribute($value)
+    // {
+    //     $this->attributes['total_amount'] = (int) round($value * 100);
+    // }
+
+
+    // // Accessor: для відображення користувачу (см → м)
+    // public function getTotalAmountAttribute($value)
+    // {
+    //     return $value / 100; // користувач бачить в метрах
+    // }
+
     /**
      * Get the supplier associated with the invoice.
      *
@@ -56,5 +76,17 @@ class Invoice extends Model
     public function calculateTotalAmount()
     {
         return $this->items()->sum('total_price');
+    }
+
+    public function updateCalculation()
+    {
+        $totalAmount = $this->calculateTotalAmount();
+        $this->total_amount = $totalAmount;
+        $this->save();
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'invoice_id');
     }
 }

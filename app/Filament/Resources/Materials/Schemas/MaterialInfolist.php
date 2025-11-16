@@ -56,12 +56,13 @@ class MaterialInfolist
                         TextEntry::make('stock_quantity')
                             ->label('Кількість на складі'),
                            // ->formatStateUsing(fn ($state) => number_format($state / 100, 2, '.', '')),
-                        TextEntry::make('cost_per_all')
+                        TextEntry::make('cost_per_all_data')
                             ->label('Вартість всього')
-                            ->default(fn ($record) => ($record->cost_per_unit * 100) * ($record->stock_quantity * 100) / 10000)
+                            ->default(fn ($record) => $record->cost_per_all())
                             ->money('UAH'),
                         TextEntry::make('unit')
                             ->label('Одиниця виміру'),
+
                     ]),
 
                 Section::make('Додаткова інформація')

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Invoices\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class InvoiceInfolist
@@ -11,20 +12,58 @@ class InvoiceInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('invoice_number'),
-                TextEntry::make('invoice_date')
-                    ->date(),
-                TextEntry::make('total_amount')
-                    ->numeric(),
-                TextEntry::make('status'),
-                TextEntry::make('supplier_id')
-                    ->numeric(),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
+                Section::make('Загальна інформація')
+                    ->schema([
+                        TextEntry::make('invoice_number')
+                            ->label('Номер рахунку'),
+                        TextEntry::make('invoice_date')
+                            ->label('Дата рахунку')
+                            ->date(),
+                        TextEntry::make('status')
+                            ->label('Статус'),
+                    ]),
+
+                Section::make('Фінансова інформація')
+                    ->schema([
+                        TextEntry::make('total_amount')
+                            ->label('Загальна сума')
+                            ->numeric()
+                            ->suffix(' центів'),
+                    ]),
+
+                Section::make('Інформація про постачальника')
+                    ->schema([
+                        TextEntry::make('supplier.name')
+                            ->label('Ім\'я постачальника'),
+                    ]),
+
+                Section::make('Оплати та транзакції')
+                    ->schema([
+                        \Filament\Infolists\Components\RepeatableEntry::make('transactions')
+                            ->label('Транзакції')
+                            ->schema([
+                                TextEntry::make('transaction_date')
+                                    ->label('Дата транзакції'),
+                                TextEntry::make('transaction_type')
+                                    ->label('Тип транзакції'),
+                                TextEntry::make('amount')
+                                    ->label('Сума')
+                                    ->suffix('центів'),
+                                TextEntry::make('description')
+                                    ->label('Опис'),
+                            ])
+                    ]),
+
+                Section::make('Товари')
+                    ->schema([
+                        TextEntry::make('items')
+                            ->label('Товари рахунку')
+                            ->formatStateUsing(function ($state, $record) {
+                                return $record->items->map(function ($item) {
+                                    return "{$item->material->name} (x{$item->quantity}): {$item->total_price} центів";
+                                })->join(', ');
+                            }),
+                    ]),
             ]);
     }
 }
