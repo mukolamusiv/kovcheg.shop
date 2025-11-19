@@ -28,19 +28,25 @@ class InvoiceInfolist
                         TextEntry::make('total_amount')
                             ->label('Загальна сума')
                             ->numeric()
-                            ->suffix(' центів'),
+                            ->money('UAN'),
+                            TextEntry::make('paid_for_amount')
+                            ->label('Оплачено')
+                            ->default(fn ($record) => $record->paid_for())
+                            ->money('UAN'),
                     ]),
 
                 Section::make('Інформація про постачальника')
                     ->schema([
                         TextEntry::make('supplier.name')
                             ->label('Ім\'я постачальника'),
+
                     ]),
 
                 Section::make('Оплати та транзакції')
                     ->schema([
                         \Filament\Infolists\Components\RepeatableEntry::make('transactions')
                             ->label('Транзакції')
+                            ->columns(2)
                             ->schema([
                                 TextEntry::make('transaction_date')
                                     ->label('Дата транзакції'),
@@ -48,7 +54,7 @@ class InvoiceInfolist
                                     ->label('Тип транзакції'),
                                 TextEntry::make('amount')
                                     ->label('Сума')
-                                    ->suffix('центів'),
+                                    ->money('UAN'),
                                 TextEntry::make('description')
                                     ->label('Опис'),
                             ])

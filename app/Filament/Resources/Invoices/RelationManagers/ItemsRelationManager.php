@@ -61,15 +61,20 @@ class ItemsRelationManager extends RelationManager
                 TextEntry::make('material.name')
                     ->label('Матеріал'),
                 TextEntry::make('quantity')
+                    ->label('Кількість')
                     ->numeric(),
                 TextEntry::make('price_per_unit')
+                    ->label('Ціна за одиницю')
                     ->numeric(),
                 TextEntry::make('total_price')
+                    ->label('Загальна ціна')
                     ->numeric(),
                 TextEntry::make('created_at')
+                    ->label('Створено')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label('Оновлено')
                     ->dateTime()
                     ->placeholder('-'),
             ]);
@@ -81,15 +86,23 @@ class ItemsRelationManager extends RelationManager
             ->recordTitleAttribute('material')
             ->columns([
                 TextColumn::make('material.name')
+                    ->label('Матеріал')
                     ->sortable(),
                 TextColumn::make('quantity')
+                    ->label('Кількість')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('price_per_unit')
+                    ->label('Ціна за одиницю')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('total_price')
+                    ->label('Загальна ціна')
                     ->numeric()
+                    ->sortable(),
+                TextColumn::make('movent_date')
+                    ->label('Дата переміщення на склад')
+                    ->date()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

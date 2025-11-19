@@ -31,11 +31,11 @@ class Invoice extends Model
             $invoice->invoice_number = 'INV-' . $date . '-' . $nextId;
         });
 
-        static::updated(function ($invoice) {
-            $totalAmount = $invoice->calculateTotalAmount();
-            $invoice->total_amount = $totalAmount;
-            $invoice->save();
-        });
+        // static::updated(function ($invoice) {
+        //     $totalAmount = $invoice->calculateTotalAmount();
+        //     $invoice->total_amount = $totalAmount;
+        //     $invoice->save();
+        // });
     }
 
 
@@ -75,7 +75,7 @@ class Invoice extends Model
 
     public function calculateTotalAmount()
     {
-        return $this->items()->sum('total_price');
+        return $this->items()->sum('total_price')/100;
     }
 
     public function updateCalculation()
@@ -88,5 +88,11 @@ class Invoice extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class, 'invoice_id');
+    }
+
+    public function paid_for()
+    {
+        //dd($this->transactions()->where('transaction_type', 'витрати')->sum('amount'));
+        return $this->transactions()->where('transaction_type', 'витрати')->sum('amount') / 100;
     }
 }

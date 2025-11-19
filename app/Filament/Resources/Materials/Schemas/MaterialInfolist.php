@@ -37,13 +37,12 @@ class MaterialInfolist
 
                 Section::make('Категорія та постачальник')
                     ->schema([
-                        TextEntry::make('category_id')
+                        TextEntry::make('category.name')
                             ->label('Категорія')
                             ->numeric()
                             ->placeholder('-'),
-                        TextEntry::make('supplier_id')
+                        TextEntry::make('supplier.name')
                             ->label('Постачальник')
-                            ->numeric()
                             ->placeholder('-'),
                     ]),
 

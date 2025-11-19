@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasScaledAttributes;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 
 class InvoiceItem extends Model
@@ -18,6 +19,7 @@ class InvoiceItem extends Model
         'quantity',
         'price_per_unit',
         'total_price',
+        'movent_date',
     ];
 
 
@@ -26,11 +28,32 @@ class InvoiceItem extends Model
         parent::boot();
 
         static::creating(function ($item) {
-            $item->price_per_unit = $item->material->price_per_unit;
-            $item->total_price = ($item->quantity * 100) * $item->price_per_unit / 10000;
+            $item->price_per_unit = $item->material->cost_per_unit;
+            $item->total_price = ($item->quantity * 100) * $item->price_per_unit / 100;
+            //dd($item->total_price, $item->quantity, $item->price_per_unit,$item->material);
           //  dd($item->total_price, $item->quantity, $item->price_per_unit);
         });
 
+
+        // static::updated(function ($item) {
+        //     $item->material->displacements($item->quantity, true);
+        //     $item->movent_date = now();
+        //     $item->save();
+        // });
+
+    }
+
+
+    public function movet()
+    {
+        $this->material->displacements($this->quantity, true);
+        $this->movent_date = now();
+        $this->save();
+
+        Notification::make()
+            ->title('Матеріал переміщено на склад')
+            ->success()
+            ->send();
     }
 
     //     // Mutator: при збереженні від користувача (м → см)

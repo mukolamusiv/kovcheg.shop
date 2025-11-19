@@ -31,6 +31,7 @@ class Material extends Model
         'supplier_id',
         'photo_path',
         'barcode_image',
+
     ];
 
     //public $centimeters = $this->getRawOriginal('stock_quantity');
@@ -181,5 +182,14 @@ class Material extends Model
         //$this->update(['barcode_image' => $path]);
 
         return $path;
+    }
+
+    public function displacements(int $count, bool $replenishment)
+    {
+        if ($replenishment)
+            $this->stock_quantity += $count;
+        else
+        $this->stock_quantity -= $count;
+        $this->save();
     }
 }

@@ -85,7 +85,7 @@ class InvoiceForm
                         //     ->numeric()
                         //     ->default(0),
                     ])
-                    ->columns(3)
+                    ->columns(2)
                     ->required(),
             ]);
     }
