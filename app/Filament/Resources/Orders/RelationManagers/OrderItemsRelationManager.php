@@ -32,7 +32,7 @@ class OrderItemsRelationManager extends RelationManager
                 Select::make('product.name')
                     ->label('Продукт')
                     ->relationship('product', 'name'),
-                Select::make('production_id')
+                Select::make('production.name')
                     ->label('Виробництво')
                     ->relationship('production', 'id'),
                 TextInput::make('quantity')

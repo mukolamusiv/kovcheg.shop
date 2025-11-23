@@ -53,8 +53,8 @@
 <div class="container">
 
     <h1>Виписка з рахунку</h1>
-    <h3>Назва рахунку: {{ $account->name }}</h3>
-    <h3>Баланс: {{ number_format($account->balance / 100, 2) }} {{ $account->currency }}</h3>
+    <h3>Назва рахунку: {{ $account->account_name }}</h3>
+    <h3>Баланс: {{ number_format($account->balance, 2) }} {{ $account->currency }}</h3>
 
     <div class="section">
         <h2>Транзакції</h2>
@@ -75,9 +75,9 @@
                         <td>{{ $transaction->description ?? '—' }}</td>
                         <td class="text-right">
                             @if ($transaction->transaction_type === 'витрати')
-                                -{{ number_format($transaction->amount / 100, 2) }}
+                                -{{ number_format($transaction->amount, 2) }}
                             @else
-                                +{{ number_format($transaction->amount / 100, 2) }}
+                                +{{ number_format($transaction->amount, 2) }}
                             @endif
                         </td>
                     </tr>

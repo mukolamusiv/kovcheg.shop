@@ -15,9 +15,6 @@ class ProductsTable
     {
         return $table
             ->columns([
-                TextColumn::make('warehouse_id')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('slug')

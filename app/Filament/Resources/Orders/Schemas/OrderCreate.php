@@ -57,6 +57,17 @@ class OrderCreate
                 //     ->default(0),
                 DatePicker::make('deadline')
                     ->label('Виотовирити до'),
+                Select::make('shipping_method')
+                    ->required()
+                    ->options([
+                        'pickup' => 'Самовивіз',
+                        'nova_poshta' => 'Нова Пошта',
+                        'courier' => 'Кур\'єр',
+                        'ukrposhta' => 'Укрпошта',
+                        'door_delivery' => 'Доставка до дверей',
+                    ])
+                    ->label('Метод доставки')
+                    ->default('pickup'),
                 Textarea::make('notes')
                     ->label('Примітки')
                     ->columnSpanFull(),
@@ -70,108 +81,108 @@ class OrderCreate
                 //     ])
                 //     ->label('Статус')
                 //     ->default('pending'),
-                Repeater::make('orderItems')
-                    ->relationship()
-                    ->dehydrated(true)
-                    ->columnSpanFull()
-                    ->label('Позиції замовлення')
-                    ->createItemButtonLabel('Додати позицію')
-                    ->schema([
-                        // Select::make('warehouse')
-                        //             ->label('Вибрати зі складу')
-                        //             ->options(Warehouse::all()->pluck('name', 'id'))
-                        //             ->searchable()
-                        //             ->preload()
-                        //             ->nullable(),
-                        Select::make('product_id')
-                            ->label('Продукт')
-                            ->options(Product::all()->pluck('name', 'id'))
-                            ->preload()
-                            ->dehydrated(true)
-                            ->searchable()
-                            ->nullable(),
-                        // Select::make('production_id')
-                        //     ->label('Виробництво')
-                        //     ->preload()
-                        //     ->options(Production::where('is_template', true)->pluck('name', 'id'))
-                        //     ->searchable()
-                        //     ->nullable(),
-                        TextInput::make('quantity')
-                            ->label('Кількість')
-                            ->required()
-                            ->dehydrated(true)
-                            ->numeric()
-                            ->default(1),
-                        // TextInput::make('unit_price')
-                        //     ->label('Ціна за одиницю')
-                        //     ->required()
-                        //     ->numeric()
-                        //     ->default(0),
-                        // TextInput::make('total')
-                        //     ->label('Загальна сума')
-                        //     ->required()
-                        //     ->numeric()
-                        //     ->default(0),
-                        Toggle::make('create_production')
-                            ->label('Замовити на виробництві')
-                            ->dehydrated(true)
-                            ->reactive(),
-                        Fieldset::make('production_details')
-                            ->label('Деталі виробництва')
-                            ->visible(fn ($get) => $get('create_production'))
-                            ->schema([
-                                Select::make('production.template_id')
-                                    ->dehydrated(true)
-                                    ->label('Вибрати шаблон виробництва')
-                                    ->options(Production::where('is_template', true)->pluck('name', 'id'))
-                                    ->searchable()
-                                    ->preload()
-                                    ->nullable()
-                                    ->reactive()
-                                    ->afterStateUpdated(function ($state, callable $set) {
-                                        if ($state) {
-                                            $template = Production::find($state);
-                                            if ($template) {
-                                                $set('production.name', $template->name);
-                                                $set('production.description', $template->description);
-                                            }
-                                        }
-                                    }),
+                // Repeater::make('orderItems')
+                //     //->relationship()
+                //     ->dehydrated(true)
+                //     ->columnSpanFull()
+                //     ->label('Позиції замовлення')
+                //     ->createItemButtonLabel('Додати позицію')
+                //     ->schema([
+                //         // Select::make('warehouse')
+                //         //             ->label('Вибрати зі складу')
+                //         //             ->options(Warehouse::all()->pluck('name', 'id'))
+                //         //             ->searchable()
+                //         //             ->preload()
+                //         //             ->nullable(),
+                //         Select::make('product_id')
+                //             ->label('Продукт')
+                //             ->options(Product::all()->pluck('name', 'id'))
+                //             ->preload()
+                //             ->dehydrated(true)
+                //             ->searchable()
+                //             ->nullable(),
+                //         // Select::make('production_id')
+                //         //     ->label('Виробництво')
+                //         //     ->preload()
+                //         //     ->options(Production::where('is_template', true)->pluck('name', 'id'))
+                //         //     ->searchable()
+                //         //     ->nullable(),
+                //         TextInput::make('quantity')
+                //             ->label('Кількість')
+                //             ->required()
+                //             ->dehydrated(true)
+                //             ->numeric()
+                //             ->default(1),
+                //         // TextInput::make('unit_price')
+                //         //     ->label('Ціна за одиницю')
+                //         //     ->required()
+                //         //     ->numeric()
+                //         //     ->default(0),
+                //         // TextInput::make('total')
+                //         //     ->label('Загальна сума')
+                //         //     ->required()
+                //         //     ->numeric()
+                //         //     ->default(0),
+                //         Toggle::make('create_production')
+                //             ->label('Замовити на виробництві')
+                //             ->dehydrated(true)
+                //             ->reactive(),
+                //         Fieldset::make('production_details')
+                //             ->label('Деталі виробництва')
+                //             ->visible(fn ($get) => $get('create_production'))
+                //             ->schema([
+                //                 Select::make('production.template_id')
+                //                     ->dehydrated(true)
+                //                     ->label('Вибрати шаблон виробництва')
+                //                     ->options(Production::where('is_template', true)->pluck('name', 'id'))
+                //                     ->searchable()
+                //                     ->preload()
+                //                     ->nullable()
+                //                     ->reactive()
+                //                     ->afterStateUpdated(function ($state, callable $set) {
+                //                         if ($state) {
+                //                             $template = Production::find($state);
+                //                             if ($template) {
+                //                                 $set('production.name', $template->name);
+                //                                 $set('production.description', $template->description);
+                //                             }
+                //                         }
+                //                     }),
 
-                                TextInput::make('production.name')
-                                    ->label('Назва виробництва')
-                                    ->dehydrated(true)
-                                    ->required(),
-                                Textarea::make('production.description')
-                                    ->dehydrated(true)
-                                    ->label('Опис')
-                                    ->nullable(),
+                //                 TextInput::make('production.name')
+                //                     ->label('Назва виробництва')
+                //                     ->dehydrated(true)
+                //                     ->required(),
+                //                 Textarea::make('production.description')
+                //                     ->dehydrated(true)
+                //                     ->label('Опис')
+                //                     ->nullable(),
 
 
-                                Repeater::make('production.materials')
-                                    ->label('Матеріали для виробництва')
-                                    ->createItemButtonLabel('Додати матеріал')
-                                    ->schema([
-                                        Select::make('material_id')
-                                            ->label('Назва матеріалу')
-                                            ->searchable()
-                                            ->preload()
-                                            ->options(\App\Models\Material::all()->pluck('name', 'id')->toArray())
-                                            ->required(),
-                                        // TextInput::make('quantity')
-                                        //     ->label('Кількість')
-                                        //     ->required()
-                                        //     ->numeric()
-                                        //     ->default(1),
-                                    ]),
-                                // TextInput::make('production.cost_price')
-                                //     ->label('Собівартість')
-                                //     ->required()
-                                //     ->numeric()
-                                //     ->default(0),
+                //                 Repeater::make('production.materials')
+                //                     ->label('Матеріали для виробництва')
+                //                     ->createItemButtonLabel('Додати матеріал')
+                //                     ->schema([
+                //                         Select::make('material_id')
+                //                             ->label('Назва матеріалу')
+                //                             ->searchable()
+                //                             ->preload()
+                //                             ->options(\App\Models\Material::all()->pluck('name', 'id')->toArray())
+                //                             ->required(),
+                //                         // TextInput::make('quantity')
+                //                         //     ->label('Кількість')
+                //                         //     ->required()
+                //                         //     ->numeric()
+                //                         //     ->default(1),
+                //                     ]),
+                //                 // TextInput::make('production.cost_price')
+                //                 //     ->label('Собівартість')
+                //                 //     ->required()
+                //                 //     ->numeric()
+                //                 //     ->default(0),
 
-                            ]),
-                    ]),
+                //             ]),
+                //     ]),
             ]);
     }
 }

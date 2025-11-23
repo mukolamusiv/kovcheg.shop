@@ -11,8 +11,6 @@ class ProductInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('warehouse_id')
-                    ->numeric(),
                 TextEntry::make('name'),
                 TextEntry::make('slug'),
                 TextEntry::make('description')

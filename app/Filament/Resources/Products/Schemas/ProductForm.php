@@ -12,9 +12,6 @@ class ProductForm
     {
         return $schema
             ->components([
-                TextInput::make('warehouse_id')
-                    ->required()
-                    ->numeric(),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('slug')

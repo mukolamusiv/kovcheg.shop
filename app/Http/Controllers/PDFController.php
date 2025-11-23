@@ -38,7 +38,7 @@ class PDFController extends Controller
 
 
     public function generateTransactionAccountPDF($account_id, $date_start, $date_finish){
-
+//dd($account_id, $date_start, $date_finish);
           $account = Account::find($account_id);
             $data = $account->getStatementForPeriod($date_start, $date_finish);
         // Генерація PDF
@@ -47,7 +47,6 @@ class PDFController extends Controller
           'transactions' => $data
         ]);
 
-        dd($data);
         return $pdf->download("transaction-{$account->id}.pdf");
     }
 }
