@@ -20,4 +20,16 @@ class Account extends Model
         'bank_name',
         'currency',
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function getStatementForPeriod($startDate, $endDate)
+    {
+        return $this->transactions()
+            ->whereBetween('transaction_date', [$startDate, $endDate])
+            ->get();
+    }
 }

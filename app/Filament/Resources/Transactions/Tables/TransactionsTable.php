@@ -15,30 +15,36 @@ class TransactionsTable
     {
         return $table
             ->columns([
-                TextColumn::make('account_id')
-                    ->numeric()
+                TextColumn::make('account.account_name')
+                    ->searchable()
+                    ->label('Рахунок')
                     ->sortable(),
                 TextColumn::make('transaction_type')
+                    ->label('Тип переказу')
                     ->badge(),
                 TextColumn::make('amount')
+                    ->label('Сума')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('description')
+                    ->label('Призначення')
                     ->searchable(),
                 TextColumn::make('transaction_date')
+                    ->label('Дата')
                     ->dateTime()
                     ->sortable(),
-                TextColumn::make('user_id')
-                    ->numeric()
+                TextColumn::make('user.name')
+                    ->label('Платник/отримувач')
                     ->sortable(),
                 TextColumn::make('order_id')
-                    ->numeric()
+                    ->label('Замовлення')
                     ->sortable(),
-                TextColumn::make('manager_id')
-                    ->numeric()
+                TextColumn::make('manager.name')
+                    ->label('Менеджер')
                     ->sortable(),
                 TextColumn::make('invoice_id')
                     ->numeric()
+                    ->label('Накладна')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

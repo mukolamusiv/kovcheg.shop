@@ -15,14 +15,21 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-
+use UnitEnum;
 class AccountResource extends Resource
 {
     protected static ?string $model = Account::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::CreditCard;
 
     protected static ?string $recordTitleAttribute = 'account_name';
+
+
+    protected static string | UnitEnum | null $navigationGroup = 'Фінанси';
+
+    protected static ?string $navigationLabel = 'Усі рахунки';
+
+    protected static ?string $pluralModelLabel = 'Рахунки';
 
     public static function form(Schema $schema): Schema
     {

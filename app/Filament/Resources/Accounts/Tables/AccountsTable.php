@@ -16,27 +16,38 @@ class AccountsTable
         return $table
             ->columns([
                 TextColumn::make('account_name')
+                    ->label('Назва рахунку')
                     ->searchable(),
                 TextColumn::make('account_type')
-                    ->searchable(),
-                TextColumn::make('ipn')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('currency')
-                    ->searchable(),
-                TextColumn::make('bank_name')
-                    ->searchable(),
-                TextColumn::make('bank_code')
-                    ->searchable(),
-                TextColumn::make('address')
-                    ->searchable(),
-                TextColumn::make('iban')
-                    ->searchable(),
-                TextColumn::make('account_number')
+                    ->label('Тип рахунку')
                     ->searchable(),
                 TextColumn::make('balance')
+                    ->label('Баланс')
                     ->numeric()
                     ->sortable(),
+
+                TextColumn::make('currency')
+                    ->label('Валюта')
+                    ->searchable(),
+                TextColumn::make('ipn')
+                    ->label('ІПН')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('bank_name')
+                    ->label('Назва банку')
+                    ->searchable(),
+                TextColumn::make('bank_code')
+                    ->label('Код банку')
+                    ->searchable(),
+                TextColumn::make('address')
+                    ->label('Адреса')
+                    ->searchable(),
+                TextColumn::make('iban')
+                    ->label('IBAN')
+                    ->searchable(),
+                TextColumn::make('account_number')
+                    ->label('Номер рахунку')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

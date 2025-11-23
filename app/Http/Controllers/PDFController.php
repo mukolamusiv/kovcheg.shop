@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use Illuminate\Http\Request;
 
 class PDFController extends Controller
@@ -33,5 +34,20 @@ class PDFController extends Controller
         ]);
 
         return $pdf->download("material-{$material->id}.pdf");
+    }
+
+
+    public function generateTransactionAccountPDF($account_id, $date_start, $date_finish){
+
+          $account = Account::find($account_id);
+            $data = $account->getStatementForPeriod($date_start, $date_finish);
+        // Генерація PDF
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('PDF.transactionAccount', [
+          'account' => $account,
+          'transactions' => $data
+        ]);
+
+        dd($data);
+        return $pdf->download("transaction-{$account->id}.pdf");
     }
 }

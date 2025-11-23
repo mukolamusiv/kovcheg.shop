@@ -15,14 +15,24 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class TransactionResource extends Resource
 {
     protected static ?string $model = Transaction::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::ArrowsRightLeft;
 
     protected static ?string $recordTitleAttribute = 'id';
+
+
+    protected static string | UnitEnum | null $navigationGroup = 'Фінанси';
+
+    protected static ?string $navigationLabel = 'Усі перекази';
+
+    protected static ?string $pluralModelLabel = 'Перекази';
+
+
 
     public static function form(Schema $schema): Schema
     {
