@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Production extends Model
 {
     protected $fillable = [
-        'name',
-        'description',
-        'cost_price',
-        'total_cost',
-        'order_id',
-        'product_id',
-        'is_template',
-        'status',
-        'mark_up',
+        'name',         // Назва виробництва
+        'description',  // Опис виробництва
+        'cost_price',   // Собівартість виробництва
+        'total_cost',   // Загальна вартість виробництва
+        'order_id',     // Ідентифікатор замовлення
+        'product_id',   // Ідентифікатор продукту
+        'is_template',  // Чи є виробництво шаблоном
+        'status',       // Статус виробництва
+        'mark_up',      // Нове поле для відсотка націнки
+        'quantity',     // Нове поле для кількості виробництва
     ];
 
     public function order()
@@ -43,6 +44,11 @@ class Production extends Model
         return $this->hasMany(ProductionMaterial::class);
     }
 
+    public function orderItems()
+    {
+        return $this->hasOne(OrderItem::class);
+    }
+
     public function calculateCostPrice()
     {
         $materialsCost = $this->materials->sum(function ($material) {
@@ -52,6 +58,8 @@ class Production extends Model
         $stagesCost = $this->stages->sum('cost');
 
         $this->cost_price = $materialsCost + $stagesCost;
+        $this->total_cost = $this->cost_price + $this->mark_up;
+        $this->total_cost = $this->total_cost * ($this->orderItems->quantity ?? 1);
         $this->save();
 
         return $this->cost_price;

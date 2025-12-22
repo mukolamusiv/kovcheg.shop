@@ -16,6 +16,23 @@ class OrderItem extends Model
         'total', // Загальна сума в копійках
     ];
 
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            // Обчислення загальної суми при створенні запису
+            $model->total = $model->quantity * $model->unit_price;
+        });
+
+        static::updating(function ($model) {
+            // Обчислення загальної суми при оновленні запису
+            $model->total = $model->quantity * $model->unit_price;
+        });
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class);

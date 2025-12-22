@@ -19,6 +19,20 @@ class MaterialInfolist
 
         return $schema
             ->components([
+
+                Section::make('Увага')
+                    //->label('УВАГА!')
+                    ->description('Помилки у матеріалі')
+                    ->columnSpanFull()
+                    ->visible(fn ($record) => $record->stock_quantity_for_production > $record->stock_quantity)
+                    ->schema([
+                        TextEntry::make('error')
+                            ->label('УВАГА!')
+                            ->default('Кількість зарезервована для виробництва більша за кількість на складі!')
+                            ->color('danger')
+                            ->placeholder('-'),
+                    ]),
+
                 Section::make('Основна інформація')
                     ->columns(2)
                     ->schema([

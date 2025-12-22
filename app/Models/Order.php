@@ -28,4 +28,16 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function productions()
+    {
+        return $this->hasMany(Production::class);
+    }
+
+    public function calculateTotals()
+    {
+        $this->total_amount = $this->orderItems->sum('total');
+        $this->due_amount = $this->total_amount - $this->discount_amount - $this->paid_amount;
+        $this->save();
+    }
 }

@@ -58,7 +58,7 @@ class RequiredForProductionRelationManager extends RelationManager
                 // TextEntry::make('production_id')
                 //     ->numeric(),
                 TextEntry::make('quantity')
-                    ->formatStateUsing(fn ($state) => number_format($state / 100, 2, '.', ''))
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, '.', ''))
                     ->label('Кількість'),
                 TextEntry::make('unit_cost')
                     ->money('UAH')
@@ -89,7 +89,7 @@ class RequiredForProductionRelationManager extends RelationManager
                     ->sortable()
                     ->label('ID виробництва'),
                 TextColumn::make('quantity')
-                    ->formatStateUsing(fn ($state) => number_format($state / 100, 2, '.', ''))
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, '.', ''))
                     ->sortable()
                     ->label('Кількість'),
                 TextColumn::make('unit_cost')

@@ -2,10 +2,14 @@
 
 namespace App\Filament\Resources\Orders\Schemas;
 
+use App\Models\Production;
 use Filament\Actions\Action;
+use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\RepeatableEntry\TableColumn;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Html;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -13,13 +17,32 @@ use Filament\Tables\Columns\TextColumn;
 
 class OrderInfolist
 {
+    // додати експорт в пдф і ексель
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
                 Section::make('Інформація про замовлення')
                 ->icon(Heroicon::InformationCircle)
-                ->aside()
+                //->aside()
+                ->headerActions([
+                    Action::make('edit_status')
+                        ->label('Виготовляти')
+                        ->color('danger')
+                        ->icon(Heroicon::PencilSquare)
+                        ->action(function (array $data, $record) {
+                            // Логіка редагування статусу замовлення
+                            $record->update([
+                                'status' => 'в обробці',
+                            ]);
+
+                            Notification::make()
+                                ->title('Статус замовлення оновлено')
+                                ->success()
+                                ->send();
+                        })
+                        //->url(fn ($record) => route('filament.resources.orders.edit', $record)),
+                ])
                 ->schema([
                      TextEntry::make('status')
                             ->color(
@@ -52,6 +75,14 @@ class OrderInfolist
                                     TableColumn::make('Виробництво'),
                                     TableColumn::make('Кількість'),
                                     TableColumn::make('Статус виробництва'),
+                                    TableColumn::make('Вартість виробництва'),
+                                    TableColumn::make('Дія'),
+                                        // ->formatStateUsing(fn (array $state) => Action::make('view_production')
+                                        //     ->label('Переглянути виробництво')
+                                        //     ->color('primary')
+                                        //     ->icon(Heroicon::Eye)
+                                        //     ->url(route('filament.resources.productions.view', $state['production']['id'] ?? null))
+                                        // ),
                             ])
                             ->schema([
                                 TextEntry::make('production.name')
@@ -60,6 +91,10 @@ class OrderInfolist
                                     ->label('Кількість'),
                                 TextEntry::make('production.status')
                                     ->label('Статус виробництва'),
+                                TextEntry::make('production.total_cost')
+                                    ->label('Вартість виробництва'),
+                                Html::make('Дія')
+                                    ->content("<a href='/123123123' class='fi-color fi-color-danger fi-bg-color-600 hover:fi-bg-color-500 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-0 hover:fi-text-color-0 dark:fi-text-color-0 dark:hover:fi-text-color-0 fi-btn fi-size-md fi-ac-btn-action' type='button'>Старт</a>")
                                 ]),
                             ])
 
@@ -67,8 +102,55 @@ class OrderInfolist
                     // ->collapsed(false)
                     ->columns(3)
                     ->footerActions([
+                        Action::make('add_production')
+                            ->color('success')
+                            ->label('Замовити виробництво')
+                            ->icon(Heroicon::SquaresPlus)
+                            ->form(fn () => \App\Filament\Resources\Orders\Schemas\OrderAddProduction::form())
+                            ->action(function (array $data, $record) {
+                               // dd($data, $record,$data['production']['materials']);
+                                $productionTemplate = Production::find($data['template_id'] ?? null);
+
+                                $production = Production::create([
+                                    'name' => $data['production']['name'],
+                                    'description' => $data['production']['description'] ?? null,
+                                    'is_template' => false,
+                                    'mark_up' => $productionTemplate->mark_up ?? 100,
+                                    //'quantity' => $data['production']['quantity'] ?? 1,
+                                    'product_id' => $productionTemplate->product_id ?? null,
+                                    'order_id' => $record->id,
+                                ]);
+
+                                $production->materials()->createMany(
+                                    collect($data['production']['materials'] ?? [])
+                                        ->map(fn ($materialData) => [
+                                            'material_id' => $materialData['data']['material_id'],
+                                            'quantity' => $materialData['data']['quantity'],
+                                        ])
+                                        ->toArray()
+                                );
+
+
+                                //$production->calculateCostPrice();
+
+                                $record->orderItems()->create([
+                                    'production_id' => $production->id ?? null,
+                                    'quantity' => $data['production']['quantity'] ?? 1,
+                                    'unit_price' => $production->calculateCostPrice() ?? 10,
+                                    'total' => $production->total_cost * ($data['production']['quantity'] ?? 1),
+                                ]);
+
+
+
+                                Notification::make()
+                                    ->title('Виробництво додано до замовлення')
+                                    ->success()
+                                    ->send();
+
+                            }),
                         Action::make('add_item')
-                            ->label('Додати елемент')
+                            ->label('Додати позицію')
+                            ->color('success')
                             ->icon(Heroicon::Plus)
                             ->form(fn () => \App\Filament\Resources\Orders\Schemas\OrderAddItem::form())
                             ->action(function (array $data) {
@@ -76,6 +158,7 @@ class OrderInfolist
                                 // Handle the addition of the new item to the order
                                 // You can implement the logic to save the new item here
                             }),
+
                     ])
                     ->columnSpanFull(),
                 Section::make('Клієнт')
@@ -102,6 +185,21 @@ class OrderInfolist
                     ])->columns(2),
 
                 Section::make('Фінанси')
+                        ->headerActions([
+                            Action::make('update_financials')
+                                ->label('Оновити фінанси')
+                                ->color('primary')
+                                ->icon(Heroicon::ArrowPath)
+                                ->action(function ($record) {
+                                    // Логіка оновлення фінансових даних замовлення
+                                    $record->calculateTotals();
+
+                                    Notification::make()
+                                        ->title('Фінансові дані оновлено')
+                                        ->success()
+                                        ->send();
+                                }),
+                        ])
                     ->schema([
                         TextEntry::make('total_amount')
                             ->label('Загальна сума')
