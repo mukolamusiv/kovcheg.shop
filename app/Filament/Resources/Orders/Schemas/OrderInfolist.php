@@ -9,6 +9,7 @@ use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\RepeatableEntry\TableColumn;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Html;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -69,33 +70,68 @@ class OrderInfolist
                         RepeatableEntry::make('orderItems')
                             ->columnSpanFull()
                             ->label('Виробництва в замовленні')
-                            ->table([
-                                //    TextColumn::make('product.name')
-                                //        ->label('Продукт'),
-                                    TableColumn::make('Виробництво'),
-                                    TableColumn::make('Кількість'),
-                                    TableColumn::make('Статус виробництва'),
-                                    TableColumn::make('Вартість виробництва'),
-                                    TableColumn::make('Дія'),
-                                        // ->formatStateUsing(fn (array $state) => Action::make('view_production')
-                                        //     ->label('Переглянути виробництво')
-                                        //     ->color('primary')
-                                        //     ->icon(Heroicon::Eye)
-                                        //     ->url(route('filament.resources.productions.view', $state['production']['id'] ?? null))
-                                        // ),
-                            ])
                             ->schema([
-                                TextEntry::make('production.name')
-                                    ->label('Виробництво'),
-                                TextEntry::make('quantity')
-                                    ->label('Кількість'),
-                                TextEntry::make('production.status')
-                                    ->label('Статус виробництва'),
-                                TextEntry::make('production.total_cost')
-                                    ->label('Вартість виробництва'),
-                                Html::make('Дія')
-                                    ->content("<a href='/123123123' class='fi-color fi-color-danger fi-bg-color-600 hover:fi-bg-color-500 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-0 hover:fi-text-color-0 dark:fi-text-color-0 dark:hover:fi-text-color-0 fi-btn fi-size-md fi-ac-btn-action' type='button'>Старт</a>")
-                                ]),
+                                Fieldset::make('Виробництво')
+                                    ->columns([
+                                        'default' => 1,
+                                        'md' => 2,
+                                        'xl' => 5,
+                                    ])
+                                    ->schema([
+                                        TextEntry::make('production.name')
+                                            ->label('Назва продукту'),
+                                        TextEntry::make('quantity')
+                                            ->label('Кількість'),
+                                        TextEntry::make('production.status')
+                                            ->label('Статус виробництва'),
+                                        TextEntry::make('production.total_cost')
+                                            ->label('Вартість виробництва'),
+                                        Action::make('start_production')
+                                            ->label('Розпочати виробництво')
+                                            ->hidden(fn ($record) => $record->production->status != 'Очікується' && $record->production->status != 'розробляється')
+                                            ->color('success')
+                                            ->icon(Heroicon::Play)
+                                            ->action(function (array $data, $record) {
+                                                dd($data, $record);
+                                                $production = $record->production;
+                                                if ($production) {
+                                                   // $production->update(['status' => 'в процесі']);
+                                                }
+
+                                                Notification::make()
+                                                    ->title('Виробництво розпочато')
+                                                    ->success()
+                                                    ->send();
+                                            }),
+                                        ])
+                            ])
+                            // ->table([
+                            //     //    TextColumn::make('product.name')
+                            //     //        ->label('Продукт'),
+                            //         TableColumn::make('Виробництво'),
+                            //         TableColumn::make('Кількість'),
+                            //         TableColumn::make('Статус виробництва'),
+                            //         TableColumn::make('Вартість виробництва'),
+                            //         TableColumn::make('Дія'),
+                            //             // ->formatStateUsing(fn (array $state) => Action::make('view_production')
+                            //             //     ->label('Переглянути виробництво')
+                            //             //     ->color('primary')
+                            //             //     ->icon(Heroicon::Eye)
+                            //             //     ->url(route('filament.resources.productions.view', $state['production']['id'] ?? null))
+                            //             // ),
+                            // ])
+                            // ->schema([
+                            //     TextEntry::make('production.name')
+                            //         ->label('Виробництво'),
+                            //     TextEntry::make('quantity')
+                            //         ->label('Кількість'),
+                            //     TextEntry::make('production.status')
+                            //         ->label('Статус виробництва'),
+                            //     TextEntry::make('production.total_cost')
+                            //         ->label('Вартість виробництва'),
+                            //     Html::make('Дія')
+                            //         ->content("<a href='/123123123' class='fi-color fi-color-danger fi-bg-color-600 hover:fi-bg-color-500 dark:fi-bg-color-600 dark:hover:fi-bg-color-500 fi-text-color-0 hover:fi-text-color-0 dark:fi-text-color-0 dark:hover:fi-text-color-0 fi-btn fi-size-md fi-ac-btn-action' type='button'>Старт</a>")
+                            //     ]),
                             ])
 
                     // ->collapsible()
