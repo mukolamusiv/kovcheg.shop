@@ -27,10 +27,10 @@ class OrderInfolist
                 ->icon(Heroicon::InformationCircle)
                 //->aside()
                 ->headerActions([
-                    Action::make('edit_status')
+                    Action::make('start_production')
                         ->label('Виготовляти')
-                        ->color('danger')
-                        ->icon(Heroicon::PencilSquare)
+                        ->color('info')
+                        ->icon(Heroicon::PlayCircle)
                         ->action(function (array $data, $record) {
                             // Логіка редагування статусу замовлення
                             $record->update([
@@ -48,7 +48,7 @@ class OrderInfolist
                      TextEntry::make('status')
                             ->color(
                                 fn (string $state): string => match ($state) {
-                                   'очікується' => 'info',
+                                    'очікується' => 'info',
                                     'готове' => 'success',
                                     'скасовано' => 'danger',
                                     'в обробці' => 'primary',

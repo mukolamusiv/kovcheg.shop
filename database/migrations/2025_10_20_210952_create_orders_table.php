@@ -19,10 +19,10 @@ return new class extends Migration
             $table->integer('paid_amount')->default(0); // in cents оплачено
             $table->integer('due_amount')->default(0); // in cents залишилось оплатити
             $table->date('deadline')->nullable();
-            $table->enum('shipping_method', ['pickup', 'nova_poshta', 'courier', 'ukrposhta', 'door_delivery'])->default('pickup'); // метод доставки
+            $table->enum('shipping_method', ['самовивіз', 'нова пошта', 'кур\'єр', 'укрпошта', 'доставка до дверей'])->default('самовивіз'); // метод доставки
             $table->text('notes')->nullable(); // нотатки до замовлення
             $table->integer('delivery')->default(0); // consider using enum or string for better readability вартість доставки
-            $table->string('status')->default('pending'); // статус замовлення
+            $table->string('status')->default('очікує'); // статус замовлення
             $table->timestamps();
         });
     }

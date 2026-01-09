@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
             $table->boolean('is_template')->default(false);
-            $table->string('status')->default('офрмлено'); // оформлено, передано в виробництво, виготовлено, скасовано
+            $table->string('status')->default('оформлено'); // оформлено, передано в виробництво, виготовлено, скасовано
             $table->integer('quantity')->default(1); // кількість одиниць виробу
             $table->timestamps();
         });
