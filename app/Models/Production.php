@@ -62,6 +62,26 @@ class Production extends Model
         $this->total_cost = $this->total_cost * ($this->orderItems->quantity ?? 1);
         $this->save();
 
-        return $this->cost_price;
+        return  $this->total_cost;
+    }
+
+
+    public function startProduction()
+    {
+        $this->calculateCostPrice();
+        foreach ($this->materials as $material) {
+            MoventProduct::create([
+                'product_id' => $this->product_id, // Ідентифікатор продукту, який виробляється
+                'production_id' => $this->id, // Ідентифікатор виробництва
+                'destination' => 'виробництво', // Місце призначення - виробництво
+                'order_id' => $this->order_id, // Ідентифікатор замовлення, якщо потрібно
+                'quantity' => $material->quantity, // Кількість матеріалів, які використовуються у виробництві
+                'status' => 'переміщено', // Статус переміщення - переміщено
+                'notes' => "Використання матеріалу: {$material->material->name} для виробництва {$this->name}", // Додаткові примітки
+            ]);
+            $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
+        }
+        $this->status = 'виготовляється';
+        $this->save();
     }
 }

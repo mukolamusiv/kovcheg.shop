@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class MoventProduct extends Model
 {
     protected $fillable = [
-        'product_id',
-        'production_id',
-        'destination',
-        'order_id',
-        'quantity',
-        'status',
-        'notes',
+        'product_id', // Ідентифікатор продукту
+        'production_id', // Ідентифікатор виробництва
+        'destination', // Місце призначення
+        'order_id', // Ідентифікатор замовлення
+        'quantity', // Кількість
+        'status', // Статус
+        'notes', // Додаткові примітки
     ];
 
     public function product()

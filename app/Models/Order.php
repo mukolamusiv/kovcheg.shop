@@ -36,8 +36,15 @@ class Order extends Model
 
     public function calculateTotals()
     {
-        $this->total_amount = $this->orderItems->sum('total');
+        $total = 0;
+        foreach($this->orderItems as $item){
+           $total += $item->calculate();
+        }
+        $this->total_amount = $total;
+        $this->save();
+        //$this->total_amount = $this->orderItems->sum('total');
         $this->due_amount = $this->total_amount - $this->discount_amount - $this->paid_amount;
+        //dd($this, $this->orderItems, $total, $this->total_amount, $this->discount_amount, $this->paid_amount);
         $this->save();
     }
 }
