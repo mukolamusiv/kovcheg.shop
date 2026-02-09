@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('salaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->integer('amount')->default(0);
+            $table->decimal('amount', 10, 2)->default(0);
             $table->date('salary_date');
             $table->string('notes')->nullable();
             $table->enum('status', ['виплачено', 'не виплачено', 'нараховано'])->default('не виплачено');

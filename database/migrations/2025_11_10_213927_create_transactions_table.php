@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
             $table->enum('transaction_type', ['витрати', 'надходження'])->default('надходження');
-            $table->integer('amount');
+            $table->decimal('amount', 10, 2)->default(0);
             $table->string('description')->nullable();
             $table->dateTime('transaction_date')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

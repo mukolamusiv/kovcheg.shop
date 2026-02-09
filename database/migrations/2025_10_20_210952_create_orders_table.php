@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('users')->onDelete('cascade');
-            $table->integer('total_amount'); // in cents to avoid floating point issues загальна вартість
-            $table->integer('discount_amount')->default(0); // in cents знижка
-            $table->integer('paid_amount')->default(0); // in cents оплачено
-            $table->integer('due_amount')->default(0); // in cents залишилось оплатити
+            $table->decimal('total_amount', 10, 2); // in cents to avoid floating point issues загальна вартість
+            $table->decimal('discount_amount', 10, 2)->default(0); // in cents знижка
+            $table->decimal('paid_amount', 10, 2)->default(0); // in cents оплачено
+            $table->decimal('due_amount', 10, 2)->default(0); // in cents залишилось оплатити
             $table->date('deadline')->nullable();
-            $table->enum('shipping_method', ['самовивіз', 'нова пошта', 'кур\'єр', 'укрпошта', 'доставка до дверей'])->default('самовивіз'); // метод доставки
+            $table->enum('shipping_method', ['самовивіз', 'нова пошта', 'укрпошта', 'доставка до дверей'])->default('самовивіз'); // метод доставки
             $table->text('notes')->nullable(); // нотатки до замовлення
-            $table->integer('delivery')->default(0); // consider using enum or string for better readability вартість доставки
+            $table->decimal('delivery', 10, 2)->default(0); // consider using enum or string for better readability вартість доставки
             $table->string('status')->default('очікує'); // статус замовлення
             $table->timestamps();
         });

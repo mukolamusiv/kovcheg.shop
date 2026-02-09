@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class ProductionMaterial extends Model
 {
 
-    use HasScaledAttributes;
+    // use HasScaledAttributes;
 
-    protected $scaled = [
-        'unit_cost',
-        'total_cost',
-        'quantity',
-    ];
+    // protected $scaled = [
+    //     'unit_cost',
+    //     'total_cost',
+    //     'quantity',
+    // ];
 
     protected $fillable = [
         'production_id',

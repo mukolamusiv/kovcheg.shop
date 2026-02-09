@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('production_id')->nullable()->constrained()->onDelete('cascade');
             $table->integer('quantity')->default(1); // кількість
-            $table->integer('unit_price')->default(0); // price in cents
-            $table->integer('total')->default(0); // total in cents
+            $table->decimal('unit_price', 10, 2)->default(0); // price in cents
+            $table->decimal('total', 10, 2)->default(0); // total in cents
             $table->timestamps();
         });
     }

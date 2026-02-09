@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('invoice_number')->unique();
             $table->date('invoice_date');
-            $table->integer('total_amount')->default(0); // amount in cents
+            $table->decimal('total_amount', 10, 2)->default(0); // amount in cents
             $table->string('status')->default('unpaid');
             $table->foreignId('supplier_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
@@ -25,9 +25,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('invoice_id')->constrained('invoices')->onDelete('cascade');
             $table->foreignId('material_id')->constrained('materials')->onDelete('cascade');
-            $table->integer('quantity')->default(1);
-            $table->integer('price_per_unit')->default(0); // price in cents
-            $table->integer('total_price')->default(0); // total price in cents
+            $table->decimal('quantity', 10, 2)->default(1);
+            $table->decimal('price_per_unit', 10, 2)->default(0); // price in cents
+            $table->decimal('total_price', 10, 2)->default(0); // total price in cents
             $table->timestamps();
         });
     }

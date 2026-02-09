@@ -19,7 +19,7 @@ return new class extends Migration
             // $table->foreignId('from_warehouse_id')->constrained('warehouses')->onDelete('cascade');
             // $table->foreignId('to_warehouse_id')->constrained('warehouses')->onDelete('cascade');
             $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('cascade');
-            $table->integer('quantity')->default(1);
+            $table->decimal('quantity', 10, 2)->default(1);
             $table->string('status')->default('на виробництві');
             $table->text('notes')->nullable();
             $table->timestamps();

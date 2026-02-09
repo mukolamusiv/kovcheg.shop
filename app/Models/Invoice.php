@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
 
-     use HasScaledAttributes;
+    //  use HasScaledAttributes;
 
-    protected $scaled = ['total_amount'];
+    // protected $scaled = ['total_amount'];
 
     protected $fillable = [
         'invoice_number',
@@ -31,10 +31,16 @@ class Invoice extends Model
             $invoice->invoice_number = 'INV-' . $date . '-' . $nextId;
         });
 
-        // static::updated(function ($invoice) {
+        // static::created(function ($invoice) {
         //     $totalAmount = $invoice->calculateTotalAmount();
         //     $invoice->total_amount = $totalAmount;
         //     $invoice->save();
+        // });
+
+        // static::updated(function ($invoice) {
+        //     $totalAmount = $invoice->calculateTotalAmount();
+        //     $invoice->total_amount = $totalAmount;
+        //     //$invoice->save();
         // });
     }
 
@@ -75,7 +81,7 @@ class Invoice extends Model
 
     public function calculateTotalAmount()
     {
-        return $this->items()->sum('total_price')/100;
+        return $this->items()->sum('total_price');
     }
 
     public function updateCalculation()
@@ -93,6 +99,6 @@ class Invoice extends Model
     public function paid_for()
     {
         //dd($this->transactions()->where('transaction_type', 'витрати')->sum('amount'));
-        return $this->transactions()->where('transaction_type', 'витрати')->sum('amount') / 100;
+        return $this->transactions()->where('transaction_type', 'витрати')->sum('amount');
     }
 }

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
 
-    use HasScaledAttributes;
+    // use HasScaledAttributes;
 
-    protected $scaled = ['balance'];
+    // protected $scaled = ['balance'];
 
 
     protected $fillable = [

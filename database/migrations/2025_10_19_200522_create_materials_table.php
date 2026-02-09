@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('barcode')->unique()->nullable(); // Додано поле barcode
             $table->string('barcode_image')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade'); // приналежність до категорії
-            $table->integer('cost_per_unit')->default(0); // варітість за одиницю
+            $table->decimal('cost_per_unit', 10, 2)->default(0); // варітість за одиницю
             $table->string('unit')->default('метри погонні'); // одиниця вимірювання
-            $table->integer('stock_quantity')->default(0); // кількість на складі
+            $table->decimal('stock_quantity', 10, 2)->default(0); // кількість на складі
             $table->foreignId('supplier_id')->nullable()->constrained('users')->onDelete('set null'); // постачальник
             $table->string('photo_path')->nullable(); // фото
             $table->timestamps();

@@ -71,7 +71,7 @@ class MaterialInfolist
                            // ->formatStateUsing(fn ($state) => number_format($state / 100, 2, '.', '')),
                         TextEntry::make('cost_per_all_data')
                             ->label('Вартість всього')
-                            ->default(fn ($record) => $record->cost_per_all())
+                            //->default(fn ($record) => $record->cost_per_all())
                             ->money('UAH'),
                         TextEntry::make('unit')
                             ->label('Одиниця виміру'),

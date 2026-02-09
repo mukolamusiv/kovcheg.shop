@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('production_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('cost')->default(0); // cost in cents
+            $table->decimal('cost', 10, 2)->default(0); // cost in cents
             $table->integer('duration')->default(0); // duration in minutes
             $table->string('status')->default('очікується');
             $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('set null');

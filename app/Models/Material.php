@@ -14,9 +14,9 @@ use Picqer\Barcode\Renderers\JpgRenderer;
 class Material extends Model
 {
 
-    use HasScaledAttributes;
+    // use HasScaledAttributes;
 
-    protected $scaled = ['stock_quantity', 'cost_per_unit'];
+    // protected $scaled = ['stock_quantity', 'cost_per_unit'];
 
 
     protected $fillable = [
@@ -49,10 +49,10 @@ class Material extends Model
     // }
 
 
-    public function cost_per_all()
-    {
-        return $this->raw('stock_quantity') * $this->raw('cost_per_unit') / 10000;
-    }
+    // public function cost_per_all()
+    // {
+    //     return $this->raw('stock_quantity') * $this->raw('cost_per_unit') / 10000;
+    // }
 
     // // Mutator: при збереженні від користувача (м → см)
     // public function setStockQuantityAttribute($value)
@@ -116,7 +116,7 @@ class Material extends Model
 
     public function getStockQuantityForProductionAttribute()
     {
-        return $this->requiredForProduction()->sum('quantity')/100;
+        return $this->requiredForProduction()->sum('quantity');
     }
 
 

@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class InvoiceItem extends Model
 {
 
-     use HasScaledAttributes;
+    //  use HasScaledAttributes;
 
-    protected $scaled = ['quantity', 'price_per_unit', 'total_price'];
+    // protected $scaled = ['quantity', 'price_per_unit', 'total_price'];
 
     protected $fillable = [
         'invoice_id',
@@ -29,7 +29,7 @@ class InvoiceItem extends Model
 
         static::creating(function ($item) {
             $item->price_per_unit = $item->material->cost_per_unit;
-            $item->total_price = ($item->quantity * 100) * $item->price_per_unit / 100;
+            $item->total_price = $item->quantity * $item->price_per_unit;
             //dd($item->total_price, $item->quantity, $item->price_per_unit,$item->material);
           //  dd($item->total_price, $item->quantity, $item->price_per_unit);
         });

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('production_id')->constrained()->onDelete('cascade');
             $table->foreignId('material_id')->constrained()->onDelete('cascade');
-            $table->integer('quantity')->default(1);
-            $table->integer('unit_cost')->default(0); // cost in cents
-            $table->integer('total_cost')->default(0); // total cost in cents
+            $table->decimal('quantity', 10, 2)->default(1);
+            $table->decimal('unit_cost', 10, 2)->default(0); // cost in cents
+            $table->decimal('total_cost', 10, 2)->default(0); // total cost in cents
             $table->string('status')->default('на складі');
             $table->timestamps();
         });

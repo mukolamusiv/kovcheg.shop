@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
-            $table->integer('cost_per_unit')->default(0); // вартість за одиницю
+            $table->decimal('cost_per_unit', 10, 2)->default(0); // вартість за одиницю
             $table->string('unit')->default('одиниці'); // одиниці вимірювання
-            $table->integer('stock_quantity')->default(0); // залишок на складі
+            $table->decimal('stock_quantity', 10, 2)->default(0); // залишок на складі, тільки два знаки після коми
             //$table->foreignId('supplier_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('photo_path')->nullable(); // фото
             $table->json('photos')->nullable(); // галерея

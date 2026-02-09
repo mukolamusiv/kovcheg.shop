@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('cost_price')->default(0); // собівартість
-            $table->integer('total_cost')->default(0); // загальна вартість
-            $table->integer('mark_up')->default(100); // націнка має округлювати до цілої гривні
+            $table->decimal('cost_price', 10, 2)->default(0); // собівартість
+            $table->decimal('total_cost', 10, 2)->default(0); // загальна вартість
+            $table->decimal('mark_up', 10, 2)->default(100); // націнка має округлювати до цілої гривні
             $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade');
             $table->boolean('is_template')->default(false);

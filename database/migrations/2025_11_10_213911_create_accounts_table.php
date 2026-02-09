@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('iban')->unique()->nullable();
             $table->string('account_number')->unique()->nullable();
-            $table->integer('balance')->default(0);
+            $table->decimal('balance', 10, 2)->default(0);
             $table->timestamps();
         });
     }

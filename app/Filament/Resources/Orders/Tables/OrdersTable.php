@@ -39,7 +39,7 @@ class OrdersTable
                     ->date()
                     ->label('Термін виконання')
                     ->sortable(),
-                TextColumn::make('delivery')
+                TextColumn::make('shipping_method')
                     ->label('Спосіб доставки')
                     ->default('Самовивіз')
                     ->color('primary')

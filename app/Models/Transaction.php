@@ -11,9 +11,9 @@ class Transaction extends Model
 
 
 
-     use HasScaledAttributes;
+    //  use HasScaledAttributes;
 
-    protected $scaled = ['amount'];
+    // protected $scaled = ['amount'];
 
 
     protected $fillable = [
