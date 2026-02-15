@@ -159,6 +159,20 @@ class ViewProduction extends ViewRecord
                     BarcodeInput::make('material.barcode')
                         ->label('Штрихкод матеріалу')
                         ->placeholder('Скануйте або введіть штрихкод...')
+                        ->helperText('Scan the barcode on the product packaging')
+                        ->hint('Required')
+                        ->live()
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            $material = \App\Models\Material::where('barcode', $state)->first();
+                            if ($material) {
+                                $set('material_id', $material->id);
+                            } else {
+                                Notification::make()
+                                    ->title('Матеріал з таким штрихкодом не знайдено.')
+                                    ->warning()
+                                    ->send();
+                            }
+                        })
                         ->required(),
                     TextInput::make('quantity')
                         ->label('Кількість')
