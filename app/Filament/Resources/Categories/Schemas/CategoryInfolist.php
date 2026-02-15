@@ -30,7 +30,7 @@ class CategoryInfolist
                             ->columnSpanFull(),
                     ]),
 
-                     Section::make('Додаткова інформація')
+                Section::make('Додаткова інформація')
                     ->columns(2)
                     ->components([
                         TextEntry::make('parent.name')
@@ -52,7 +52,6 @@ class CategoryInfolist
                             ->dateTime()
                             ->placeholder('-'),
                     ]),
-
 
                     Section::make('Дочірні категорії')
                         ->columns(1)

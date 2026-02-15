@@ -10,6 +10,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 
+use Marcelorodrigo\FilamentBarcodeScannerField\Forms\Components\BarcodeInput;
+
 class ViewProduction extends ViewRecord
 {
     protected static string $resource = ProductionResource::class;
@@ -153,6 +155,10 @@ class ViewProduction extends ViewRecord
                         ->searchable()
                         ->preload()
                         ->options(\App\Models\Material::all()->pluck('name', 'id')->toArray())
+                        ->required(),
+                    BarcodeInput::make('material.barcode')
+                        ->label('Штрихкод матеріалу')
+                        ->placeholder('Скануйте або введіть штрихкод...')
                         ->required(),
                     TextInput::make('quantity')
                         ->label('Кількість')
