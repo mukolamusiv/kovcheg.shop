@@ -66,7 +66,7 @@ return [
 
         'mysql_old' => [
             'driver' => 'mysql',
-            'host' => 'kovcheg2.mysql.tools',
+            'host' => env('DB_HOST_OLD'),
             'database' => 'kovcheg2_laravel',
             'username' => 'kovcheg2_laravel',
             'password' => '5Ne2!Hji+6',
