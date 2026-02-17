@@ -63,13 +63,12 @@ return [
             ]) : [],
         ],
 
-
         'mysql_old' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST_OLD'),
-            'database' => 'kovcheg2_laravel',
-            'username' => 'kovcheg2_laravel',
-            'password' => '5Ne2!Hji+6',
+            'database' => env('DB_DATABASE_OLD'),
+            'username' => env('DB_USERNAME_OLD'),
+            'password' => env('DB_PASSWORD_OLD'),
         ],
 
         'mariadb' => [
