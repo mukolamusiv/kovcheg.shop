@@ -7,7 +7,6 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>{{ config('app.name', 'Laravel') }}</title>
 <meta name="description" content="description">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,9 +30,9 @@
         @endif
 </head>
 <body class="template-index belle template-index-belle">
-<div id="pre-loader">
+{{-- <div id="pre-loader">
     <img src="assets/images/loader.gif" alt="Loading..." />
-</div>
+</div> --}}
 <div class="pageWrapper">
 	<!--Search Form Drawer-->
 	<div class="search">
@@ -47,7 +46,7 @@
     </div>
     <!--End Search Form Drawer-->
     <!--Top Header-->
-    <div class="top-header">
+    {{-- <div class="top-header">
         <div class="container-fluid">
             <div class="row">
             	<div class="col-10 col-sm-8 col-md-5 col-lg-4">
@@ -85,7 +84,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!--End Top Header-->
     <!--Header-->
     <div class="header-wrap classicHeader animated d-flex">
@@ -94,7 +93,7 @@
             	<!--Desktop Logo-->
                 <div class="logo col-md-2 col-lg-2 d-none d-lg-block">
                     <a href="index.html">
-                    	<img src="assets/images/logo.svg" alt="Belle Multipurpose Html Template" title="Belle Multipurpose Html Template" />
+                    	<img src="assets/images/logo.svg" alt="Ковчег" title="Ковчег-магазин" />
                     </a>
                 </div>
                 <!--End Desktop Logo-->
