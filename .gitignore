@@ -22,7 +22,7 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
-/public
+# /public
 /storage/pail
 .env.backup
 .env.production
