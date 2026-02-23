@@ -9,48 +9,7 @@
             <button type="button" class="search-trigger close-btn"><i class="anm anm-times-l"></i></button>
         </div>
     </div>
-    <!--End Search Form Drawer-->
-    <!--Top Header-->
-    {{-- <div class="top-header">
-        <div class="container-fluid">
-            <div class="row">
-            	<div class="col-10 col-sm-8 col-md-5 col-lg-4">
-                    <div class="currency-picker">
-                        <span class="selected-currency">USD</span>
-                        <ul id="currencies">
-                            <li data-currency="INR" class="">INR</li>
-                            <li data-currency="GBP" class="">GBP</li>
-                            <li data-currency="CAD" class="">CAD</li>
-                            <li data-currency="USD" class="selected">USD</li>
-                            <li data-currency="AUD" class="">AUD</li>
-                            <li data-currency="EUR" class="">EUR</li>
-                            <li data-currency="JPY" class="">JPY</li>
-                        </ul>
-                    </div>
-                    <div class="language-dropdown">
-                        <span class="language-dd">English</span>
-                        <ul id="language">
-                            <li class="">German</li>
-                            <li class="">French</li>
-                        </ul>
-                    </div>
-                    <p class="phone-no"><i class="anm anm-phone-s"></i> +440 0(111) 044 833</p>
-                </div>
-                <div class="col-sm-4 col-md-4 col-lg-4 d-none d-lg-none d-md-block d-lg-block">
-                	<div class="text-center"><p class="top-header_middle-text"> Worldwide Express Shipping</p></div>
-                </div>
-                <div class="col-2 col-sm-4 col-md-3 col-lg-4 text-right">
-                	<span class="user-menu d-block d-lg-none"><i class="anm anm-user-al" aria-hidden="true"></i></span>
-                    <ul class="customer-links list-inline">
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="register.html">Create Account</a></li>
-                        <li><a href="wishlist.html">Wishlist</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    <!--End Top Header-->
+
     <!--Header-->
     <div class="header-wrap classicHeader animated d-flex">
     	<div class="container-fluid">
@@ -108,6 +67,7 @@
                     <!--End Desktop Menu-->
                 </div>
 
+
                 <!--Mobile Logo-->
                 <div class="col-6 col-sm-6 col-md-6 col-lg-2 d-block d-lg-none mobile-logo">
                 	<div class="logo">
@@ -116,7 +76,8 @@
                         </a>
                     </div>
                 </div>
-                <!--Mobile Logo-->
+
+                    <!--Mobile Logo-->
                 <div class="col-4 col-sm-3 col-md-3 col-lg-2">
                 	<div class="site-cart">
                     	<a href="#" class="site-header__cart" title="Cart">
@@ -187,15 +148,13 @@
                         </div>
                         <!--EndMinicart Popup-->
                     </div>
-                    <div class="site-header__search">
-                    	<button type="button" class="search-trigger"><i class="icon anm anm-search-l"></i></button>
-                    </div>
+
                 </div>
         	</div>
         </div>
     </div>
-    <!--End Header-->
-    <!--Mobile Menu-->
+
+     <!--Mobile Menu-->
     <div class="mobile-nav-wrapper" role="navigation">
 		<div class="closemobileMenu"><i class="icon anm anm-times-l pull-right"></i> Закрити меню</div>
         <ul id="MobileNav" class="mobile-nav">
@@ -233,4 +192,6 @@
       </ul>
 	</div>
 	<!--End Mobile Menu-->
+    <!--End Header-->
+
 </div>
