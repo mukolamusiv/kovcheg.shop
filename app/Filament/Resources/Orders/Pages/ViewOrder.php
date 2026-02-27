@@ -46,23 +46,24 @@ class ViewOrder extends ViewRecord
                         ->required(),
                 ])
                 ->action(function (array $data) {
-                    if(Account::find($data['account_id'])->balance < $data['amount']){
-                        Notification::make()
-                            ->title('Недостатньо коштів на рахунку для оплати накладної.')
-                            ->danger()
-                            ->send();
-                        return;
-                    }
+                    // if(Account::find($data['account_id'])->balance < $data['amount']){
+                    //     Notification::make()
+                    //         ->title('Недостатньо коштів на рахунку для оплати накладної.')
+                    //         ->danger()
+                    //         ->send();
+                    //     return;
+                    // }
                     Transaction::create([
                         'order_id' => $this->record->id,
                         'account_id' => $data['account_id'],
                         'transaction_type' => 'надходження',
                         'amount' => $data['amount'],
                         'transaction_date' => now(),
-                        'description' => 'Оплата замовлення #' . $this->record->id.' - '.$this->record->supplier->name,
-                        'user_id' => $this->record->supplier_id,
+                        'description' => 'Оплата замовлення #' . $this->record->id.' - '. $this->record->customer->name,
+                        'user_id' => $this->record->customer_id,
                         'manager_id' => auth()->id(),
                     ]);
+
                     if($this->record->paid_for() >= $this->record->total_amount)
                     {
                         $this->record->update(['status' => 'оплачено']);
@@ -70,8 +71,10 @@ class ViewOrder extends ViewRecord
                         $this->record->update(['status' => 'частково оплачено']);
                     }
 
+                    $this->record->payOrder();
+
                     Notification::make()
-                        ->title('Оплата замовлення #' . $this->record->id . ' - ' . $this->record->supplier->name . ' успішно проведена.')
+                        ->title('Оплата замовлення #' . $this->record->id . ' - ' . $this->record->customer->name . ' успішно проведена.')
                         ->success()
                         ->send();
                 }),

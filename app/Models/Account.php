@@ -14,11 +14,16 @@ class Account extends Model
 
 
     protected $fillable = [
-        'name',
-        'balance',
-        'account_number',
-        'bank_name',
+        'account_name',
+        'account_type',
+        'ipn',
         'currency',
+        'bank_name',
+        'bank_code',
+        'address',
+        'iban',
+        'account_number',
+        'balance',
     ];
 
     public function transactions()

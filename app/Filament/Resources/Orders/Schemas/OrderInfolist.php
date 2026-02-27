@@ -93,6 +93,7 @@ class OrderInfolist
                                     'готове' => 'success',
                                     'скасовано' => 'danger',
                                     'в обробці' => 'primary',
+                                    default => 'secondary',
                                 })
                             //     [
 
