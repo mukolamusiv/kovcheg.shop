@@ -108,6 +108,7 @@ class Production extends Model
                     ->danger()
                     ->send();
             }
+            $material->status = 'виготовляється';
             $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
         }
         Notification::make()
