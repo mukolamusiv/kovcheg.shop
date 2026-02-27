@@ -171,6 +171,8 @@ class OrderInfolist
                                                             Section::make([
                                                                 TextEntry::make('isStockInsufficient')
                                                                     ->default(fn ($record) => implode(', ', $record->production->errors_materials()[0] ?? []))
+                                                                    ->badge()
+                                                                    ->color('danger')
                                                                     ->label('Проблеми з матеріалами')
                                                             ]),
                                                             Section::make([
