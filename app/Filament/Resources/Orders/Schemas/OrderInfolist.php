@@ -442,25 +442,27 @@ class OrderInfolist
                                     'status' => 'створено',
                                 ]);
 
-                                $production->materials()->createMany(
-                                    collect($productionTemplate->materials ?? [])
-                                        ->map(fn ($material) => [
-                                            'material_id' => $material->material_id,
-                                            'quantity' => $material->quantity,
-                                        ])
-                                        ->toArray()
-                                );
+                                $production->loadTemplateData($data['template_id'] ?? null);
 
-                                $production->stages()->createMany(
-                                    collect($productionTemplate->stages ?? [])
-                                        ->map(fn ($stage) => [
-                                            'name' => $stage->name,
-                                            'description' => $stage->description,
-                                            'cost' => $stage->cost,
-                                            'assigned_to' => $stage->assigned_to,
-                                        ])
-                                        ->toArray()
-                                );
+                                // $production->materials()->createMany(
+                                //     collect($productionTemplate->materials ?? [])
+                                //         ->map(fn ($material) => [
+                                //             'material_id' => $material->material_id,
+                                //             'quantity' => $material->quantity,
+                                //         ])
+                                //         ->toArray()
+                                // );
+
+                                // $production->stages()->createMany(
+                                //     collect($productionTemplate->stages ?? [])
+                                //         ->map(fn ($stage) => [
+                                //             'name' => $stage->name,
+                                //             'description' => $stage->description,
+                                //             'cost' => $stage->cost,
+                                //             'assigned_to' => $stage->assigned_to,
+                                //         ])
+                                //         ->toArray()
+                                // );
 
 
                                 $record->orderItems()->create([

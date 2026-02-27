@@ -20,6 +20,44 @@ class Production extends Model
         'quantity',     // Нове поле для кількості виробництва
     ];
 
+
+
+
+    public function loadTemplateData($templateId)
+    {
+        $template = self::find($templateId);
+            if ($template) {
+                // Load materials from the template
+                foreach ($template->materials as $templateMaterial) {
+                    $this->materials()->create([
+                        //'production_id' => $this->id,
+                        'material_id' => $templateMaterial->material_id,
+                        'quantity' => $templateMaterial->quantity,
+                        'unit_cost' => $templateMaterial->unit_cost,
+                        'total_cost' => $templateMaterial->total_cost,
+                        'status' => $templateMaterial->status,
+                    ]);
+                }
+                // Load stages from the template
+                foreach ($template->stages as $templateStage) {
+                    $this->stages()->create([
+                        //'production_id' => $this->id,
+                        'name' => $templateStage->name,
+                        'description' => $templateStage->description,
+                        'cost' => $templateStage->cost,
+                        'duration' => $templateStage->duration,
+                        'status' => $templateStage->status,
+                        'assigned_to' => $templateStage->assigned_to,
+                    ]);
+                }
+                Notification::make()
+                    ->title("Дані шаблону завантажені успішно")
+                    ->success()
+                    ->send();
+        }
+    }
+
+
    // public $errors_materials = [];
 
     public function order()
