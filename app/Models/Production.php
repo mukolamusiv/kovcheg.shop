@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 
 class Production extends Model
@@ -92,15 +93,27 @@ class Production extends Model
         foreach ($this->materials as $material) {
            if ($material->material->stock_quantity < $material->quantity) {
                 throw new \Exception("Недостатньо матеріалів на складі: " . $material->material->name);
+                Notification::make()
+                    ->title("Недостатньо матеріалів на складі: " . $material->material->name)
+                    ->danger()
+                    ->send();
             }
            // $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
         }
         foreach ($this->materials as $material) {
            if ($material->material->stock_quantity < $material->quantity) {
                 throw new \Exception("Недостатньо матеріалів на складі: " . $material->material->name);
+                Notification::make()
+                    ->title("Недостатньо матеріалів на складі: " . $material->material->name)
+                    ->danger()
+                    ->send();
             }
             $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
         }
+        Notification::make()
+            ->title("Виробництво розпочато, матеріали списані зі складу")
+            ->success()
+            ->send();
         $this->status = 'виготовляється';
         $this->save();
     }
