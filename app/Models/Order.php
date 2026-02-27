@@ -47,4 +47,15 @@ class Order extends Model
         //dd($this, $this->orderItems, $total, $this->total_amount, $this->discount_amount, $this->paid_amount);
         $this->save();
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function paid_for()
+    {
+        //dd($this->transactions()->where('transaction_type', 'витрати')->sum('amount'));
+        return $this->transactions()->where('transaction_type', 'надходження')->sum('amount');
+    }
 }

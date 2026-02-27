@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('shipping_method', ['самовивіз', 'нова пошта', 'укрпошта', 'доставка до дверей'])->default('самовивіз'); // метод доставки
             $table->text('notes')->nullable(); // нотатки до замовлення
             $table->decimal('delivery', 10, 2)->default(0); // consider using enum or string for better readability вартість доставки
-            $table->string('status')->default('очікує'); // статус замовлення
+            $table->string('status')->default('створено'); // статус замовлення
             $table->timestamps();
         });
     }
