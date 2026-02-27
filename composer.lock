@@ -4,8 +4,78 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "734307ff72ff48d5ab11b282fafa2766",
+    "content-hash": "f17e78d88c125620b506d3389c468c83",
     "packages": [
+        {
+            "name": "alkoumi/filament-google-charts",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alkoumi/filament-google-charts.git",
+                "reference": "83c38373998841ff5c488fd454ef088c1bfb9a35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alkoumi/filament-google-charts/zipball/83c38373998841ff5c488fd454ef088c1bfb9a35",
+                "reference": "83c38373998841ff5c488fd454ef088c1bfb9a35",
+                "shasum": ""
+            },
+            "require": {
+                "filament/widgets": "^3.0|^4.0|^5.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^9.0|^10.0",
+                "pestphp/pest": "^2.10|^3.0",
+                "pestphp/pest-plugin-laravel": "^2.0|^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentGoogleCharts": "Alkoumi\\FilamentGoogleCharts\\FilamentGoogleCharts"
+                    },
+                    "providers": [
+                        "Alkoumi\\FilamentGoogleCharts\\WidgetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Alkoumi\\FilamentGoogleCharts\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed alkoumi",
+                    "email": "mohammedelkoumi@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Google Chart widgets for Filament",
+            "homepage": "https://github.com/alkoumi/filament-google-charts",
+            "keywords": [
+                "alkoumi",
+                "charts",
+                "filament-google-charts",
+                "filament-plugin",
+                "geo",
+                "geo-charts",
+                "google-charts",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/alkoumi/filament-google-charts/issues",
+                "source": "https://github.com/alkoumi/filament-google-charts/tree/v1.0.0"
+            },
+            "time": "2026-01-25T07:58:32+00:00"
+        },
         {
             "name": "anourvalar/eloquent-serialize",
             "version": "1.3.4",

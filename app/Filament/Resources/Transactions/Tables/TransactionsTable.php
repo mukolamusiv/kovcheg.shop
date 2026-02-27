@@ -21,6 +21,11 @@ class TransactionsTable
                     ->sortable(),
                 TextColumn::make('transaction_type')
                     ->label('Тип переказу')
+                    ->color(fn ($state) => match ($state) {
+                        'надходження' => 'success',
+                        'витрати' => 'danger',
+                        default => 'secondary',
+                    })
                     ->badge(),
                 TextColumn::make('amount')
                     ->label('Сума')

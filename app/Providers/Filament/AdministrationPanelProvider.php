@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Plugins\BarcodeScannerPlugin\BarcodeScannerPlugin;
+use App\Filament\Widgets\OrderChartWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -42,6 +43,7 @@ class AdministrationPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
+                OrderChartWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
