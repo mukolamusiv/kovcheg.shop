@@ -49,7 +49,7 @@ class InvoiceForm
                     ->createOptionUsing(function (array $data) {
                         $user = User::create([
                             'name' => $data['name'],
-                            'email' => $data['email'],
+                            //'email' => $data['email'],
                             'role' => 'supplier',
                             // 'password' => bcrypt('password123'), // мінімальний пароль
                         ]);
