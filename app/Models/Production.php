@@ -93,6 +93,12 @@ class Production extends Model
            if ($material->material->stock_quantity < $material->quantity) {
                 throw new \Exception("Недостатньо матеріалів на складі: " . $material->material->name);
             }
+           // $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
+        }
+        foreach ($this->materials as $material) {
+           if ($material->material->stock_quantity < $material->quantity) {
+                throw new \Exception("Недостатньо матеріалів на складі: " . $material->material->name);
+            }
             $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
         }
         $this->status = 'виготовляється';
