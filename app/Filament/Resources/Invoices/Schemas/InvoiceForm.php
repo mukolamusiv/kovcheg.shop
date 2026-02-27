@@ -73,6 +73,8 @@ class InvoiceForm
                             ->label('Кількість')
                             ->required()
                             ->numeric()
+                            ->inputMode('decimal')
+                            ->step(0.01)
                             ->default(1),
                         // TextInput::make('price_per_unit')
                         //     ->label('Ціна за одиницю (в копійках)')
