@@ -19,6 +19,8 @@ class Production extends Model
         'quantity',     // Нове поле для кількості виробництва
     ];
 
+   // public $errors_materials = [];
+
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -66,6 +68,24 @@ class Production extends Model
     }
 
 
+    public function errors_materials()
+    {
+        $errors = [];
+        foreach ($this->materials as $material) {
+            if ($material->material->stock_quantity < $material->quantity) {
+                $errors[] = "Недостатньо матеріалів на складі: " . $material->material->name;
+            }
+        }
+        $return[0] = $errors;
+        if(!empty($errors)) {
+            $return[1] = true;
+        }
+
+        //$this->errors_materials = $errors;
+        return $return;
+    }
+
+
     public function startProduction()
     {
         $this->calculateCostPrice();
@@ -76,6 +96,12 @@ class Production extends Model
             $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
         }
         $this->status = 'виготовляється';
+        $this->save();
+    }
+
+    public function completeProduction()
+    {
+        $this->status = 'завершено';
         $this->save();
     }
 }

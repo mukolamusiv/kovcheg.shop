@@ -19,6 +19,20 @@ class OrdersTable
                 TextColumn::make('customer.name')
                     ->label('Замовник')
                     ->sortable(),
+                TextColumn::make('status')
+                    ->label('Статус замовлення')
+                    ->sortable()
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                            'створено' => 'gray',
+                            'оформлено' => 'info',
+                            'виготовляється' => 'warning',
+                            'виготовлено' => 'success',
+                            'завершено' => 'secondary',
+                            'скасовано' => 'danger',
+                            default => 'info',
+                        })
+                    ->searchable(),
                 // TextColumn::make('total_amount')
                 //     ->numeric()
                 //     ->label('Загальна сума')
@@ -44,10 +58,7 @@ class OrdersTable
                     ->default('Самовивіз')
                     ->color('primary')
                     ->sortable(),
-                TextColumn::make('status')
-                    ->label('Статус замовлення')
-                    ->sortable()
-                    ->searchable(),
+
                 TextColumn::make('status.payment')
                     ->label('Статус оплати')
                     ->sortable()

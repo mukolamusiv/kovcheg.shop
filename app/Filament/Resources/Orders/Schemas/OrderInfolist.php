@@ -14,6 +14,7 @@ use Filament\Infolists\Components\RepeatableEntry\TableColumn;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Html;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -123,24 +124,26 @@ class OrderInfolist
                                         TextEntry::make('quantity')
                                             ->label('Кількість'),
                                         TextEntry::make('production.status')
+                                            ->badge()
+                                            ->color(fn (string $state): string => match ($state) {
+                                                'створено' => 'info',
+                                                'виготовляється' => 'warning',
+                                                'виготовлено' => 'success',
+                                                'відхилено' => 'danger',
+                                                    default => 'primary',
+                                            })
                                             ->label('Статус виробництва'),
                                         TextEntry::make('production.total_cost')
                                             ->label('Вартість виробництва'),
-
-
                                         ActionGroup::make([
                                             Action::make('start_productions')
                                                 ->label('Розпочати виробництво')
-                                                ->hidden(fn ($record) => $record->production->status != 'оформлено' && $record->production->status != 'розробляється')
+                                                //->hidden(fn ($record) => $record->production->status != 'cтворено')
+                                                ->visible(fn ($record) => $record->production->status == 'створено')
                                                 ->color('success')
                                                 ->icon(Heroicon::Play)
                                                 ->action(function (array $data, $record) {
                                                     $record->production->startProduction();
-                                                    //dd($data, $record);
-                                                    // dd($record->production);
-                                                    // $production = $record->production;
-                                                    // $production->update(['status' => 'виготовляється']);
-
                                                     Notification::make()
                                                         ->title('Виробництво розпочато')
                                                         ->success()
@@ -152,36 +155,124 @@ class OrderInfolist
                                                 ->color('danger')
                                                 ->icon(Heroicon::Stop)
                                                 ->action(function (array $data, $record) {
-
+                                                    $record->production->stopProduction();
+                                                    Notification::make()
+                                                        ->title('Виробництво завершено')
+                                                        ->success()
+                                                        ->send();
                                                 }),
                                                 Action::make('view_production')
                                                     ->label('Переглянути виробництво')
                                                     //->hidden(fn ($record) => $record->production->status != 'Очікується' && $record->production->status != 'розробляється')
                                                     ->color('info')
-                                                    ->icon(Heroicon::Eye)
-                                                    ->url(fn ($record) => route('filament.administration.resources.productions.view', $record->production->id ?? null)),
-                                            Action::make('edit_production_materials')
+                                                    ->form([
+                                                        Flex::make([
+                                                            Section::make([
+                                                                // TextEntry::make('production.errors_materials.0')
+                                                                //     ->label('Проблеми з матеріалами')
+
+                                                            ]),
+                                                            Section::make([
+                                                                TextEntry::make('production.created_at')
+                                                                    ->label('Дата початку')
+                                                                    ->date(),
+                                                            ])->grow(false),
+                                                        ])->from('md')->visible(fn ($record) => $record->production->errors_materials()[1] ?? false)->hidden(true),
+
+                                                        Section::make('Деталі виробництва')->schema([
+                                                            TextEntry::make('production.name')
+                                                                ->badge()
+                                                                ->label('Назва виробництва'),
+                                                            TextEntry::make('production.description')
+                                                                ->badge()
+                                                                ->label('Опис виробництва'),
+                                                            TextEntry::make('production.mark_up')
+                                                                ->badge()
+                                                                ->money('UAN')
+                                                                ->label('Націнкa'),
+                                                            TextEntry::make('production.quantity')
+                                                                ->badge()
+                                                                ->label('Кількість'),
+                                                            TextEntry::make('production.status')
+                                                                ->badge()
+                                                                 ->color(fn (string $state): string => match ($state) {
+                                                                        'створено' => 'info',
+                                                                        'виготовляється' => 'warning',
+                                                                        'виготовлено' => 'success',
+                                                                        'відхилено' => 'danger',
+                                                                         default => 'primary',
+                                                                    })
+                                                                ->label('Статус виробництва'),
+                                                            TextEntry::make('production.total_cost')
+                                                                ->badge()
+                                                                ->label('Загальна вартість виробництва'),
+                                                            TextInput::make('production.id')
+                                                                ->visible(false)
+                                                                ->default(fn ($record) => $record->production->id)
+                                                                ->label('ID виробництва'),
+                                                            Select::make('production.status')
+                                                                ->label('Змінити статус виробництва')
+                                                                ->options([
+                                                                    'створено' => 'Створено',
+                                                                    'виготовляється' => 'Виготовляється',
+                                                                    'виготовлено' => 'Виготовлено',
+                                                                    'відхилено' => 'Відхилено',
+                                                                ])
+                                                                ->default(fn ($record) => $record->production->status),
+                                                            TextInput::make('production.mark_up')
+                                                                ->default(fn ($record) => $record->production->mark_up)
+                                                                ->numeric()
+                                                                // ->money('UAN')
+                                                                ->label('Націнкa'),
+
+                                                        ])
+                                                        ->columns(2)
+                                                        ->headerActions([
+                                                            Action::make('delete_production')
+                                                                ->label('Видалити виробництво')
+                                                                ->color('danger')
+                                                                ->icon(Heroicon::Trash)
+                                                                ->action(function (array $data, $record) {
+                                                                    $production = $record->production;
+                                                                    $production->delete();
+                                                                    Notification::make()
+                                                                        ->title('Виробництво видалено')
+                                                                        ->success()
+                                                                        ->send();
+                                                                }),
+                                                        ])
+
+                                                    ])
+                                                    ->action(function (array $data, $record) {
+                                                        //dd($data, $record);
+                                                        $production = $record->production;
+                                                        $production->update([
+                                                            // 'name' => $data['production']['name'] ?? $production->name,
+                                                            // 'description' => $data['production']['description'] ?? $production->description,
+                                                             'mark_up' => $data['production']['mark_up'] ?? $production->mark_up,
+                                                            // 'quantity' => $data['production']['quantity'] ?? $production->quantity,
+                                                            'status' => $data['production']['status'] ?? $production->status,
+                                                        ]);
+
+                                                        $production->save();
+                                                        Notification::make()
+                                                            ->title('Статус виробництва оновлено')
+                                                            ->success()
+                                                            ->send();
+                                                    })
+                                                    ->icon(Heroicon::Eye),
+                                                    //->url(fn ($record) => route('filament.administration.resources.productions.view', $record->production->id ?? null)),
+                                                Action::make('edit_production_materials')
                                                     ->label('Редагувати матеріали виробництва')
-                                                    ->hidden(fn ($record) => $record->production->status != 'очікується' && $record->production->status != 'розробляється' && $record->production->status != 'оформлено')
+                                                    //->hidden(fn ($record) => $record->production->status != 'очікується' && $record->production->status != 'розробляється' && $record->production->status != 'оформлено')
                                                     ->color('primary')
                                                     ->icon(Heroicon::PencilSquare)
                                                     ->form([
-                                                        // TextEntry::make('production.name')
-                                                        //     ->label('Назва виробництва'),
-                                                        // TextEntry::make('production.description')
-                                                        //     ->label('Опис виробництва'),
-                                                        // TextEntry::make('production.mark_up')
-                                                        //     ->label('Націнка виробництва')
-                                                        //     ->numeric(),
-                                                        // TextEntry::make('production.quantity')
-                                                        //     ->label('Кількість виробництва')
-                                                        //     ->numeric(),
+
                                                         Repeater::make('production_materials')
                                                             ->label('Матеріали для виробництва')
                                                             ->schema([
-                                                                // TextInput::make('id')
-                                                                //     ->label('ID')
-                                                                //     ->hidden(),
+
                                                                 Select::make('material_id')
                                                                     ->label('Матеріал')
                                                                     ->searchable()
@@ -216,24 +307,71 @@ class OrderInfolist
                                                                     ->toArray()
                                                             );
                                                         }
+                                                        Notification::make()
+                                                            ->title('Матеріали виробництва оновлено')
+                                                            ->success()
+                                                            ->send();
+                                                    }),
+                                                Action::make('edit_production_stages')
+                                                    ->label('Редагувати етапи виробництва')
+                                                    //->hidden(fn ($record) => $record->production->status != 'очікується' && $record->production->status != 'розробляється' && $record->production->status != 'оформлено')
+                                                    ->color('secondary')
+                                                    ->icon(Heroicon::PencilSquare)
+                                                    ->form([
 
-                                                        // $production->update([
-                                                        //     'name' => $data['production']['name'] ?? $production->name,
-                                                        //     'description' => $data['production']['description'] ?? $production->description,
-                                                        //     'mark_up' => $data['production']['mark_up'] ?? $production->mark_up,
-                                                        //     'quantity' => $data['production']['quantity'] ?? $production->quantity,
-                                                        // ]);
-                                                        // if (isset($data['production']['materials'])) {
-                                                        //     $production->materials()->delete();
-                                                        //     $production->materials()->createMany(
-                                                        //         collect($data['production']['materials'] ?? [])
-                                                        //             ->map(fn ($materialData) => [
-                                                        //                 'material_id' => $materialData['material_id'],
-                                                        //                 'quantity' => $materialData['quantity'],
-                                                        //             ])
-                                                        //             ->toArray()
-                                                        //     );
-                                                        // }
+                                                        Repeater::make('production_stages')
+                                                            ->label('Етапи виробництва')
+                                                            ->schema([
+                                                                TextInput::make('name')
+                                                                    ->label('Назва етапу')
+                                                                    ->required(),
+                                                                TextInput::make('description')
+                                                                    ->label('Опис етапу')
+                                                                    ->nullable(),
+                                                                TextInput::make('cost')
+                                                                    ->label('Вартість етапу')
+                                                                    ->required(),
+
+                                                                Select::make('assigned_to')
+                                                                    ->label('Відповідальний користувач')
+                                                                    ->searchable()
+                                                                    ->options(function () {
+                                                                        return \App\Models\User::all()->pluck('name', 'id')->where('role', 'manager')->toArray();
+                                                                    }),
+                                                                ])
+                                                        ])->fillForm(fn ($record) => [
+                                                            'production_stages' => $record->production->stages,
+                                                    ])
+                                                    ->action(function (array $data, $record) {
+                                                        //dd($data, $record->production->materials);
+                                                        //dd($data, $record);
+                                                        $production = $record->production;
+                                                        $production->update([
+                                                            'name' => $data['production_stages']['name'] ?? $production->name,
+                                                            'description' => $data['production_stages']['description'] ?? $production->description,
+                                                            'mark_up' => $data['production_stages']['mark_up'] ?? $production->mark_up,
+                                                            'quantity' => $data['production_stages']['quantity'] ?? $production->quantity,
+                                                        ]);
+                                                        if (isset($data['production_stages'])) {
+                                                            $production->stages()->delete();
+                                                            $production->stages()->createMany(
+                                                                collect($data['production_stages'] ?? [])
+                                                                    ->map(fn ($stageData) => [
+                                                                        'name' => $stageData['name'],
+                                                                        'description' => $stageData['description'] ?? null,
+                                                                        'cost' => $stageData['cost'],
+                                                                        'assigned_to' => $stageData['assigned_to'] ?? null,
+                                                                    ])
+                                                                    ->toArray()
+                                                            );
+                                                        }
+                                                        Notification::make()
+                                                            ->title('Матеріали виробництва оновлено')
+                                                            ->success()
+                                                            ->send();
+
+                                                        // });
+
                                                     }),
                                             ])->label('Дії')
                                                 ->icon('heroicon-m-adjustments-vertical')
