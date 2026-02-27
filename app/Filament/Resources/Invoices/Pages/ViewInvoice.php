@@ -94,7 +94,7 @@ class ViewInvoice extends ViewRecord
                 ->color('warning')
                 ->action(fn () => $this->record->updateCalculation()),
 
-                Action::make('move_to_warehouse')
+            Action::make('move_to_warehouse')
                     ->label('Перемістити матеріали на склад')
                     ->button()
                     ->hidden(fn () => $this->record->items->contains(fn ($item) => $item->movent_date != null))

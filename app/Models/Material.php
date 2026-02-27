@@ -187,13 +187,13 @@ class Material extends Model
     /**
      * Виконує переміщення матеріалів на складі, збільшуючи або зменшуючи їх кількість.
      *
-     * @param int $count Кількість матеріалів для переміщення.
+     * @param $count Кількість матеріалів для переміщення.
      * @param bool $replenishment Вказує, чи є переміщення поповненням запасів (true)
      *                            або зменшенням запасів (false).
      *
      * @return void
      */
-    public function displacements(int $count, bool $replenishment)
+    public function displacements($count, bool $replenishment)
     {
         if ($replenishment){
             $this->stock_quantity += $count;
