@@ -199,11 +199,13 @@ class OrderInfolist
                                                             TextEntry::make('production.status')
                                                                 ->badge()
                                                                  ->color(fn (string $state): string => match ($state) {
-                                                                        'створено' => 'info',
-                                                                        'виготовляється' => 'warning',
-                                                                        'виготовлено' => 'success',
-                                                                        'відхилено' => 'danger',
-                                                                         default => 'primary',
+                                                                            'створено' => 'gray',
+                                                                            'оформлено' => 'info',
+                                                                            'виготовляється' => 'warning',
+                                                                            'виготовлено' => 'success',
+                                                                            'завершено' => 'secondary',
+                                                                            'скасовано' => 'danger',
+                                                                            default => 'info',
                                                                     })
                                                                 ->label('Статус виробництва'),
                                                             TextEntry::make('production.total_cost')
@@ -437,19 +439,29 @@ class OrderInfolist
                                     //'quantity' => $data['production']['quantity'] ?? 1,
                                     'product_id' => $productionTemplate->product_id ?? null,
                                     'order_id' => $record->id,
+                                    'status' => 'створено',
                                 ]);
 
                                 $production->materials()->createMany(
-                                    collect($data['production']['materials'] ?? [])
-                                        ->map(fn ($materialData) => [
-                                            'material_id' => $materialData['data']['material_id'],
-                                            'quantity' => $materialData['data']['quantity'],
+                                    collect($productionTemplate->materials ?? [])
+                                        ->map(fn ($material) => [
+                                            'material_id' => $material->material_id,
+                                            'quantity' => $material->quantity,
                                         ])
                                         ->toArray()
                                 );
 
+                                $production->stages()->createMany(
+                                    collect($productionTemplate->stages ?? [])
+                                        ->map(fn ($stage) => [
+                                            'name' => $stage->name,
+                                            'description' => $stage->description,
+                                            'cost' => $stage->cost,
+                                            'assigned_to' => $stage->assigned_to,
+                                        ])
+                                        ->toArray()
+                                );
 
-                                //$production->calculateCostPrice();
 
                                 $record->orderItems()->create([
                                     'production_id' => $production->id ?? null,
@@ -457,7 +469,6 @@ class OrderInfolist
                                     'unit_price' => $production->calculateCostPrice() ?? 10,
                                     'total' => $production->total_cost * ($data['production']['quantity'] ?? 1),
                                 ]);
-
 
 
                                 Notification::make()
@@ -472,7 +483,7 @@ class OrderInfolist
                             ->icon(Heroicon::Plus)
                             ->form(fn () => \App\Filament\Resources\Orders\Schemas\OrderAddItem::form())
                             ->action(function (array $data) {
-                                dd($data);
+                                //dd($data);
                                 // Handle the addition of the new item to the order
                                 // You can implement the logic to save the new item here
                             }),

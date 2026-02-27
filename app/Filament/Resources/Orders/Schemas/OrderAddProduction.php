@@ -184,28 +184,28 @@ class OrderAddProduction
                         ->numeric()
                         ->required(),
 
-                    // ========= BUILDER МАТЕРІАЛІВ ==========
-                    Builder::make('production.materials')
-                        ->label('Матеріали')
-                        ->blocks([
-                            Block::make('material')
-                                ->label('Матеріал')
-                                ->schema([
-                                    Select::make('material_id')
-                                        ->label('Матеріал')
-                                        ->options(
-                                            Material::query()->pluck('name', 'id')
-                                        )
-                                        ->searchable()
-                                        ->required(),
+                    // // ========= BUILDER МАТЕРІАЛІВ ==========
+                    // Builder::make('production.materials')
+                    //     ->label('Матеріали')
+                    //     ->blocks([
+                    //         Block::make('material')
+                    //             ->label('Матеріал')
+                    //             ->schema([
+                    //                 Select::make('material_id')
+                    //                     ->label('Матеріал')
+                    //                     ->options(
+                    //                         Material::query()->pluck('name', 'id')
+                    //                     )
+                    //                     ->searchable()
+                    //                     ->required(),
 
-                                    TextInput::make('quantity')
-                                        ->label('Кількість')
-                                        ->numeric()
-                                        ->default(1)
-                                        ->required(),
-                                ]),
-                        ]),
+                    //                 TextInput::make('quantity')
+                    //                     ->label('Кількість')
+                    //                     ->numeric()
+                    //                     ->default(1)
+                    //                     ->required(),
+                    //             ]),
+                    //     ]),
                     ])
         ];
     }
