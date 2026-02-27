@@ -41,10 +41,10 @@ class InvoiceForm
                         TextInput::make('name')
                             ->label('Ім\'я постачальника')
                             ->required(),
-                        TextInput::make('email')
-                            ->label('Електронна пошта')
-                            ->email()
-                            ->required(),
+                        // TextInput::make('email')
+                        //     ->label('Електронна пошта')
+                        //     ->email()
+                        //     ->required(),
                     ])
                     ->createOptionUsing(function (array $data) {
                         $user = User::create([
