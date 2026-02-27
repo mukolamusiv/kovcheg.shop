@@ -273,7 +273,6 @@ class OrderInfolist
                                                         Repeater::make('production_materials')
                                                             ->label('Матеріали для виробництва')
                                                             ->schema([
-
                                                                 Select::make('material_id')
                                                                     ->label('Матеріал')
                                                                     ->searchable()
@@ -282,7 +281,8 @@ class OrderInfolist
                                                                     }),
                                                                 TextInput::make('quantity')
                                                                     ->label('Кількість матеріалу')
-                                                                    ->numeric(),
+                                                                    ->numeric()
+                                                                    ->step(0.01),
                                                                 ])
                                                         ])->fillForm(fn ($record) => [
                                                             'production_materials' => $record->production->materials,
