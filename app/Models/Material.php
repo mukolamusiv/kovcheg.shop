@@ -108,15 +108,21 @@ class Material extends Model
         return $this->belongsTo(User::class, 'supplier_id');
     }
 
-    public function requiredForProduction()
+    public function requiredForProduction() // Додано метод для отримання матеріалів, які необхідні для виробництва
     {
         return $this->hasMany(ProductionMaterial::class, 'material_id')
             ->where('status', 'на складі');
     }
 
-    public function getStockQuantityForProductionAttribute()
+    public function getStockQuantityForProductionAttribute() // Додано аксесор для отримання загальної кількості матеріалу, необхідної для виробництва
     {
         return $this->requiredForProduction()->sum('quantity');
+    }
+
+
+    public function isStockInsufficient($requiredQuantity)
+    {
+        return $this->stock_quantity < $requiredQuantity;
     }
 
 

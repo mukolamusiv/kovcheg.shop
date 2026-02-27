@@ -169,16 +169,16 @@ class OrderInfolist
                                                     ->form([
                                                         Flex::make([
                                                             Section::make([
-                                                                // TextEntry::make('production.errors_materials.0')
-                                                                //     ->label('Проблеми з матеріалами')
-
+                                                                TextEntry::make('isStockInsufficient')
+                                                                    ->default(fn ($record) => implode(', ', $record->production->errors_materials()[0] ?? []))
+                                                                    ->label('Проблеми з матеріалами')
                                                             ]),
                                                             Section::make([
                                                                 TextEntry::make('production.created_at')
                                                                     ->label('Дата початку')
                                                                     ->date(),
                                                             ])->grow(false),
-                                                        ])->from('md')->visible(fn ($record) => $record->production->errors_materials()[1] ?? false)->hidden(true),
+                                                        ])->from('md')->visible(fn ($record) => $record->production->errors_materials()[1] ?? false),
 
                                                         Section::make('Деталі виробництва')->schema([
                                                             TextEntry::make('production.name')
