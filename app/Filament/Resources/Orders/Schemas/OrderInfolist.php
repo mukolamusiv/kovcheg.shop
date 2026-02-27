@@ -429,7 +429,7 @@ class OrderInfolist
                             ->form(fn () => \App\Filament\Resources\Orders\Schemas\OrderAddProduction::form())
                             ->action(function (array $data, $record) {
                                // dd($data, $record,$data['production']['materials']);
-                                $productionTemplate = Production::find($data['production.template_id'] ?? null);
+                                $productionTemplate = Production::find($data['production']['template_id'] ?? null);
 
                                 $production = Production::create([
                                     'name' => $data['production']['name'],
@@ -443,7 +443,7 @@ class OrderInfolist
                                 ]);
                                 dd($data);
 
-                                $production->loadTemplateData($data['production.template_id'] ?? null);
+                                $production->loadTemplateData($data['production']['template_id'] ?? null);
 
                                 dd($production);
                                 // $production->materials()->createMany(
