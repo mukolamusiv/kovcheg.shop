@@ -443,7 +443,7 @@ class OrderInfolist
                                 ]);
                                 //dd($production);
 
-                                $production->loadTemplateData($data['template_id'] ?? null);
+                                $production->loadTemplateData($productionTemplate->id);
 
                                 dd($production);
                                 // $production->materials()->createMany(
