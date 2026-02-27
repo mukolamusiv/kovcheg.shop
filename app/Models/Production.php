@@ -25,6 +25,7 @@ class Production extends Model
 
     public function loadTemplateData($templateId)
     {
+        dd($templateId);
         $template = self::find($templateId);
             if ($template) {
                 // Load materials from the template

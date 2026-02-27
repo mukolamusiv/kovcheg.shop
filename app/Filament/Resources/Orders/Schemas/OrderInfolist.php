@@ -444,6 +444,7 @@ class OrderInfolist
 
                                 $production->loadTemplateData($data['template_id'] ?? null);
 
+                                dd($production);
                                 // $production->materials()->createMany(
                                 //     collect($productionTemplate->materials ?? [])
                                 //         ->map(fn ($material) => [
