@@ -151,11 +151,12 @@ class OrderInfolist
                                                 }),
                                             Action::make('stop_production')
                                                 ->label('Завершити виробництво')
-                                                ->hidden(fn ($record) => $record->production->status != 'виготовляється')
+                                                //->hidden(fn ($record) => $record->production->status != 'виготовляється')
+                                                ->visible(fn ($record) => $record->production->status == 'виготовляється')
                                                 ->color('danger')
                                                 ->icon(Heroicon::Stop)
                                                 ->action(function (array $data, $record) {
-                                                    $record->production->stopProduction();
+                                                    $record->production->completeProduction();
                                                     Notification::make()
                                                         ->title('Виробництво завершено')
                                                         ->success()

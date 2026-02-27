@@ -101,7 +101,11 @@ class Production extends Model
 
     public function completeProduction()
     {
-        $this->status = 'завершено';
+
+        // foreach ($this->materials as $material) {
+        //     $material->material->displacements($material->quantity, false); // Списуємо матеріали зі складу
+        // }
+        $this->status = 'виготовлено';
         $this->save();
     }
 }

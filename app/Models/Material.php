@@ -200,7 +200,6 @@ class Material extends Model
         } else {
             $this->stock_quantity -= $count;
         }
-
         $this->save();
     }
 }
