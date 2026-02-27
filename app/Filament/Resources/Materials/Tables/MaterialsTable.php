@@ -50,8 +50,7 @@ class MaterialsTable
                     ->sortable(),
                 TextColumn::make('stock_quantity_for_production')
                     ->label('Резерв')
-                    ->color(fn ($record) => $record->stock_quantity_for_production > $record->stock_quantity ? 'danger' : 'success')
-                    ->searchable(),
+                    ->color(fn ($record) => $record->stock_quantity_for_production > $record->stock_quantity ? 'danger' : 'success'),
                 TextColumn::make('supplier_id')
                     ->label('Постачальник')
                     ->numeric()
