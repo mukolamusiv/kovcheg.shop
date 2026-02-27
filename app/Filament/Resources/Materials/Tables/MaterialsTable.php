@@ -23,20 +23,6 @@ class MaterialsTable
                 TextColumn::make('name')
                     ->label('Назва')
                     ->searchable(),
-                TextColumn::make('category.name')
-                    ->label('Категорія')
-                    ->sortable()
-                    ->searchable(),
-
-                // Stack::make([
-                    ImageColumn::make('barcode_image')
-                        ->disk('public')
-                        ->label('Штрих-код'),
-                    TextColumn::make('barcode')
-                        ->label('Штрих-код')
-                        ->searchable(),
-                // ]),
-
                 TextColumn::make('cost_per_unit')
                     ->label('Ціна за одиницю')
                     ->numeric()
@@ -56,11 +42,25 @@ class MaterialsTable
                     ->numeric()
                     ->searchable()
                     ->sortable(),
+                   TextColumn::make('category.name')
+                    ->label('Категорія')
+                    ->sortable()
+                    ->searchable(),
                 // ImageColumn::make('photo_path')
                 //     ->disk('public')
                 //     ->label('Фото'),
                 ImageColumn::make('photo_path')
                     ->label('Фото'),
+
+                 // Stack::make([
+                    ImageColumn::make('barcode_image')
+                        ->disk('public')
+                        ->label('Штрих-код'),
+                    TextColumn::make('barcode')
+                        ->label('Штрих-код')
+                        ->searchable(),
+                // ]),
+
                         //->imageWidth(200),
                 TextColumn::make('created_at')
                     ->dateTime()
