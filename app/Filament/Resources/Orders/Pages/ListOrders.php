@@ -15,8 +15,12 @@ class ListOrders extends ListRecords
     {
         return [
             CreateAction::make(),
-            ExportBulkAction::make('export')
-                ->label('Export to Excel'),
+            // ExportBulkAction::make('export')
+            //     ->label('Export to Excel'),
+            // ExportBulkAction::make('exportCsv')
+            //     ->label('Export to CSV')
+            //     ->fileName('orders.csv')
+            //     ->withWriterType(\PhpOffice\PhpSpreadsheet\Writer\Csv::class),
         ];
     }
 }

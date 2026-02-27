@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use pxlrbt\FilamentExcel\Actions\ExportBulkAction;
 
 class OrdersTable
 {
@@ -115,8 +116,14 @@ class OrdersTable
                 // ViewAction::make(),
                 // EditAction::make(),
             ])
+            ->bulkActions([
+                ExportBulkAction::make('export')
+                    ->label('Експорт до Excel'),
+            ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make('export')
+                        ->label('Експорт до Excel'),
                     DeleteBulkAction::make(),
                 ]),
             ]);
