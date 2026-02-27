@@ -92,7 +92,11 @@ class Production extends Model
         $this->calculateCostPrice();
         foreach ($this->materials as $material) {
            if ($material->material->stock_quantity < $material->quantity) {
-                throw new \Exception("Недостатньо матеріалів на складі: " . $material->material->name);
+            Notification::make()
+                    ->title("Недостатньо матеріалів на складі: " . $material->material->name)
+                    ->danger()
+                    ->send();
+                exit; throw new \Exception("Недостатньо матеріалів на складі: " . $material->material->name);
                 Notification::make()
                     ->title("Недостатньо матеріалів на складі: " . $material->material->name)
                     ->danger()
@@ -102,14 +106,20 @@ class Production extends Model
         }
         foreach ($this->materials as $material) {
            if ($material->material->stock_quantity < $material->quantity) {
-                throw new \Exception("Недостатньо матеріалів на складі: " . $material->material->name);
+            Notification::make()
+                    ->title("Недостатньо матеріалів на складі: " . $material->material->name)
+                    ->danger()
+                    ->send();
+               exit;// throw new \Exception("Недостатньо матеріалів на складі: " . $material->material->name);
                 Notification::make()
                     ->title("Недостатньо матеріалів на складі: " . $material->material->name)
                     ->danger()
                     ->send();
             }
+           // dd($material->material->stock_quantity, $material->quantity);
             $material->status = 'виготовляється';
             $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
+            $material->status = 'виготовляється';
         }
         Notification::make()
             ->title("Виробництво розпочато, матеріали списані зі складу")
