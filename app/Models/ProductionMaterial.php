@@ -90,6 +90,12 @@ class ProductionMaterial extends Model
         // });
     }
 
+    public function movent_materials_status()
+    {
+        $this->status = 'виготовляється';
+        $this->save();
+    }
+
     public function production()
     {
         return $this->belongsTo(Production::class);

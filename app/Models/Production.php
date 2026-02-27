@@ -117,9 +117,9 @@ class Production extends Model
                     ->send();
             }
            // dd($material->material->stock_quantity, $material->quantity);
-            $material->status = 'виготовляється';
+            $material->movent_materials_status();
             $material->material->displacements($material->quantity, false); // Зменшуємо кількість матеріалів на складі
-            $material->status = 'виготовляється';
+            //$material->status = 'виготовляється';
         }
         Notification::make()
             ->title("Виробництво розпочато, матеріали списані зі складу")
