@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Orders\Pages;
 use App\Filament\Resources\Orders\OrderResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use pxlrbt\FilamentExcel\Actions\ExportBulkAction;
 
 class ListOrders extends ListRecords
 {
@@ -14,6 +15,9 @@ class ListOrders extends ListRecords
     {
         return [
             CreateAction::make(),
+            ExportBulkAction::make('export')
+                ->label('Export to Excel')
+                ->icon('heroicon-o-document-download'),
         ];
     }
 }
