@@ -441,7 +441,7 @@ class OrderInfolist
                                     'order_id' => $record->id,
                                     'status' => 'створено',
                                 ]);
-                                dd($data);
+                               // dd($data);
 
                                 $production->loadTemplateData($data['production']['template_id'] ?? null);
 
