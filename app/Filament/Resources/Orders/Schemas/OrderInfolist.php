@@ -295,7 +295,7 @@ class OrderInfolist
                                                             'name' => $data['production_materials']['name'] ?? $production->name,
                                                             'description' => $data['production_materials']['description'] ?? $production->description,
                                                             'mark_up' => $data['production_materials']['mark_up'] ?? $production->mark_up,
-                                                            'quantity' => $data['production_materials']['quantity'] ?? $production->quantity,
+                                                            //'quantity' => $data['production_materials']['quantity'] ?? $production->quantity,
                                                         ]);
                                                         if (isset($data['production_materials'])) {
                                                             $production->materials()->delete();
