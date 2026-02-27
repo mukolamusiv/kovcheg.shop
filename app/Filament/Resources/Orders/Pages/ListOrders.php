@@ -16,8 +16,7 @@ class ListOrders extends ListRecords
         return [
             CreateAction::make(),
             ExportBulkAction::make('export')
-                ->label('Export to Excel')
-                ->icon('heroicon-o-document-download'),
+                ->label('Export to Excel'),
         ];
     }
 }
