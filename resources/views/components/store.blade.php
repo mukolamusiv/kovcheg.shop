@@ -39,7 +39,6 @@
             <!--Body Content-->
     <div id="page-content">
           {{-- @include('store.home') --}}
-
           {{ $slot ?? '' }}
     </div>
         <livewire:store.footer />
