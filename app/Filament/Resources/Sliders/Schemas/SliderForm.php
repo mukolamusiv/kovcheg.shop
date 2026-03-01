@@ -30,8 +30,8 @@ class SliderForm
                     ->directory('sliders')
                     ->required(),
                 TextInput::make('link')
-                    ->label('Посилання')
-                    ->url()
+                    ->label('Текст кнопки')
+                    //->url()
                     ->required(),
                  Checkbox::make('is_active')
                     ->label('Активний')
