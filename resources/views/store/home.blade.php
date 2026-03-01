@@ -12,7 +12,7 @@
                         <div class="wrap-caption center">
                                 <h2 class="h1 mega-title slideshow__title">{{ $slider->title }}</h2>
                                 <span class="mega-subtitle slideshow__subtitle">{{ $slider->subtitle }}</span>
-                                <span class="btn">{{ asset('storage/'.$slider->image_path) }}</span>
+                                {{-- <span class="btn">{{ asset('storage/'.$slider->image_path) }}</span> --}}
                             </div>
                     </div>
                 </div>
