@@ -1,5 +1,4 @@
 <x-layouts.store title="Головна">
-
 <!--Home slider-->
 <div class="slideshow slideshow-wrapper pb-section sliderFull">
     <div class="home-slideshow">
@@ -51,4 +50,7 @@
     </div>
 </div>
 <!--End Home slider-->
+
+
+
 </x-layouts.store>

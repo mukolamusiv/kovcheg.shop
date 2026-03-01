@@ -56,10 +56,10 @@
      <!--For Newsletter Popup-->
      <script>
 		jQuery(document).ready(function(){
-		  jQuery('.closepopup').on('click', function () {
-			  jQuery('#popup-container').fadeOut();
-			  jQuery('#modalOverly').fadeOut();
-		  });
+		//   jQuery('.closepopup').on('click', function () {
+		// 	  jQuery('#popup-container').fadeOut();
+		// 	  jQuery('#modalOverly').fadeOut();
+		//   });
 
 		  var visits = jQuery.cookie('visits') || 0;
 		  visits++;

@@ -151,4 +151,20 @@ class MigrateData extends Command
                 }
             }
     }
+
+    private function orders()
+    {
+        $this->info('🔄 Міграція замовлень');
+        // Логіка міграції замовлень
+        $orders = DB::connection('mysql_old')
+            ->table('productions')
+            ->get();
+
+        foreach($orders as $order){
+            $this->info('🔄 Міграція замовлення '.$order->id);
+            // Логіка міграції кожного замовлення
+            // ...
+            $this->info('✅ Міграція замовлення '.$order->id.' завершена');
+        }
+    }
 }
