@@ -20,7 +20,7 @@
         </div>
         @endforeach
 
-        <div class="slide">
+        {{-- <div class="slide">
             <div class="blur-up lazyload bg-size">
                 <img class="blur-up lazyload bg-img" data-src="assets/images/slideshow-banners/belle-banner2.jpg" src="assets/images/slideshow-banners/belle-banner2.jpg" alt="Summer Bikini Collection" title="Summer Bikini Collection" />
                 <div class="slideshow__text-wrap slideshow__overlay classic bottom">
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-                <div class="slide">
+        <div class="slide">
             <div class="blur-up lazyload bg-size">
                 <img class="blur-up lazyload bg-img" data-src="assets/images/slideshow-banners/belle-banner1.jpg" src="assets/images/slideshow-banners/belle-banner1.jpg" alt="Shop Our New Collection" title="Shop Our New Collection" />
                 <div class="slideshow__text-wrap slideshow__overlay classic bottom">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 <!--End Home slider-->
