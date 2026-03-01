@@ -36,8 +36,16 @@
     <div class="pageWrapper">
         <livewire:store.header />
 
-        {{-- {{ $slot }} --}}
-
+            <!--Body Content-->
+    <div id="page-content">
+          @include('store.home')
+        @if (Route::is('home'))
+            @include('store.home')
+        @else
+            {{-- Include other content or slot for other pages --}}
+            {{-- {{ $slot }} --}}
+        @endif
+    </div>
         <livewire:store.footer />
           <!-- Including Jquery -->
      <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>

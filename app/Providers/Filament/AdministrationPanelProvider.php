@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Plugins\BarcodeScannerPlugin\BarcodeScannerPlugin;
+use App\Filament\Widgets\CostsWidget;
 use App\Filament\Widgets\OrderChartWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -44,6 +45,7 @@ class AdministrationPanelProvider extends PanelProvider
                 AccountWidget::class,
                 FilamentInfoWidget::class,
                 OrderChartWidget::class,
+                CostsWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

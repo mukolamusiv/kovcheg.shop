@@ -60,12 +60,16 @@ class OrdersTable
                     ->color('primary')
                     ->sortable(),
 
-                TextColumn::make('status.payment')
+                TextColumn::make('statusPaymentss')
                     ->label('Статус оплати')
                     ->sortable()
-                    ->color('danger')
-                    ->default('Не сплачено')
-                    ->searchable(),
+                    ->color(fn ($record) => match ($record->statusPayment()) {
+                            'оплачено' => 'success',
+                            'частково оплачено' => 'warning',
+                            'не сплачено' => 'danger',
+                            default => 'info',
+                        })
+                    ->default(fn ($record) => $record->statusPayment()),
                 TextColumn::make('notes')
                     ->label('Примітки')
                     ->limit(50)

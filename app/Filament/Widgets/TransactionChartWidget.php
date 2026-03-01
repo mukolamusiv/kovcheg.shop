@@ -20,14 +20,14 @@ class TransactionChartWidget extends ChartWidget
             ->groupBy('transaction_type')
             ->map(function ($groupedTransactions) {
             return $groupedTransactions->mapWithKeys(function ($transaction) {
-                return [
-                $transaction->month => [
-                    'month' => \Illuminate\Support\Carbon::create()->month($transaction->month)->locale('uk')->startOfMonth()->translatedFormat('F'),
-                    'count' => $transaction->count,
-                    'amount' => $transaction->amount,
-                ],
-                ];
-            });
+                    return [
+                        $transaction->month => [
+                            'month' => \Illuminate\Support\Carbon::create()->month($transaction->month)->locale('uk')->startOfMonth()->translatedFormat('F'),
+                            'count' => $transaction->count,
+                            'amount' => $transaction->amount,
+                        ],
+                    ];
+                });
             })
             ->toArray();
 

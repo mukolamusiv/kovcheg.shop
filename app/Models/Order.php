@@ -59,6 +59,16 @@ class Order extends Model
         return $this->transactions()->where('transaction_type', 'надходження')->sum('amount');
     }
 
+    public function statusPayment()
+    {
+        if($this->paid_amount >= $this->total_amount){
+            return 'оплачено';
+        }else if($this->paid_amount > 0){
+            return 'частково оплачено';
+        }
+        return 'не сплачено';
+    }
+
     public function payOrder(){
         /**
          * Оновлює властивості моделі замовлення, пов'язані з оплатою,
@@ -77,9 +87,9 @@ class Order extends Model
         $this->paid_amount = $this->paid_for();
         $this->due_amount = $this->total_amount - $this->discount_amount - $this->paid_amount;
         if($this->paid_amount >= $this->total_amount){
-            $this->status = 'оплачено';
+            //$this->status = 'оплачено';
         }else if($this->paid_amount > 0){
-            $this->status = 'частково оплачено';
+            //$this->status = 'частково оплачено';
         }
         $this->save();
         return $this;
