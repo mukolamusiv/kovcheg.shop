@@ -50,10 +50,7 @@ class OrdersTable
                     ->numeric()
                     ->label('Сума до сплати')
                     ->sortable(),
-                TextColumn::make('deadline')
-                    ->date()
-                    ->label('Термін виконання')
-                    ->sortable(),
+
                 TextColumn::make('shipping_method')
                     ->label('Спосіб доставки')
                     ->default('Самовивіз')
@@ -62,7 +59,7 @@ class OrdersTable
 
                 TextColumn::make('statusPaymentss')
                     ->label('Статус оплати')
-                    ->sortable()
+                    //->sortable()
                     ->color(fn ($record) => match ($record->statusPayment()) {
                             'оплачено' => 'success',
                             'частково оплачено' => 'warning',
@@ -70,6 +67,10 @@ class OrdersTable
                             default => 'info',
                         })
                     ->default(fn ($record) => $record->statusPayment()),
+                TextColumn::make('deadline')
+                    ->date()
+                    ->label('Термін виконання')
+                    ->sortable(),
                 TextColumn::make('notes')
                     ->label('Примітки')
                     ->limit(50)

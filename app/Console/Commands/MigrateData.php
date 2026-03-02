@@ -36,11 +36,13 @@ class MigrateData extends Command
 
         try {
             // КРОК 1: Міграція реєстрів
-            // $this->materials();
-
-             $this->customer();
+            $this->materials();
 
             $this->category();
+
+            $this->customer();
+
+
 
             //$this->orders();
             // Фіксуємо зміни
@@ -120,11 +122,33 @@ class MigrateData extends Command
 
     private function customer()
     {
+        $users = DB::connection('mysql_old')
+            ->table('users')
+            ->get();
+
+         foreach ($users as $user) {
+             $this->info('🔄 Міграція користувача '.$user->name);
+                $existingUserId = DB::table('users')
+                    ->where('name', $user->name)
+                    // ->orWhere('slug', \Str::slug($user->name))
+                    ->value('id');
+                if (! $existingUserId) {
+                    $newUser = DB::table('users')->insertGetId([
+                        'name' => $user->name,
+                        'email' => $user->email ?? null,
+                        'password' => $user->password ?? null,
+                        'role' => 'admin',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    $this->info('✅ Міграція користувача '.$user->name.' завершена');
+                }
+         }
         $this->info('🔄 Міграція клієнтів');
         // Логіка міграції клієнтів
         $customers = DB::connection('mysql_old')
             ->table('customers')
-           // ->limit(49) // Додайте обмеження, якщо потрібно
+            ->limit(100) // Додайте обмеження, якщо потрібно
             ->get();
 
         foreach ($customers as $customer) {
@@ -269,9 +293,25 @@ class MigrateData extends Command
                         ->where('name', $materialInfo->name)
                         ->value('id');
 
+                        if (! $newMaterialId) {
+                            $materialAdd = new Material([
+                                'name' => $materialInfo->name,
+                                'slug' => \Str::slug($materialInfo->name),
+                                'description' => $materialInfo->description ?? '',
+                                'cost_per_unit' => $material->price ?? 0,
+                                'unit' => $materialInfo->unit ?: 'метри погонні',
+                                'stock_quantity' => $material->quantity ?? 0,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ]);
+                            $materialAdd->save();
+                            $newMaterialId = $materialAdd->id;
+                            $this->info('🔄++++++ Матеріал '.$materialInfo->name.' додано у нову базу даних, ID: '.$newMaterialId);
+                        }
+
                     $material = Material::find($newMaterialId);
                     //$material->stock_quantity = $material->stock_quantity + ($material->quantity ?? 100);
-                    $material->stock_quantity = (float)($material->stock_quantity + ($material->quantity ?? 100));
+                    $material->stock_quantity = $material->quantity ?? 10; //(float)($material->stock_quantity + ($material->quantity ?? 100));
                     $material->cost_per_unit = $material->price ?? 100;
                     //$material->cost_per_unit = $material->price ?? 0;
                     $material->save();
