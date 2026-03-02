@@ -296,7 +296,7 @@ class MigrateData extends Command
                         if (! $newMaterialId) {
                             $materialAdd = new Material([
                                 'name' => $materialInfo->name,
-                                'slug' => \Str::slug($materialInfo->name),
+                                'slug' => \Str::slug($materialInfo->name.'-'.$materialInfo->id),
                                 'description' => $materialInfo->description ?? '',
                                 'cost_per_unit' => $material->price ?? 0,
                                 'unit' => $materialInfo->unit ?: 'метри погонні',
