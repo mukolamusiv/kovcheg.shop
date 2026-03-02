@@ -148,7 +148,7 @@ class MigrateData extends Command
         // Логіка міграції клієнтів
         $customers = DB::connection('mysql_old')
             ->table('customers')
-            ->limit(100) // Додайте обмеження, якщо потрібно
+            //->limit(100) // Додайте обмеження, якщо потрібно
             ->get();
 
         foreach ($customers as $customer) {
