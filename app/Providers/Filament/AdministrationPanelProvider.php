@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Plugins\BarcodeScannerPlugin\BarcodeScannerPlugin;
 use App\Filament\Widgets\CostsWidget;
 use App\Filament\Widgets\OrderChartWidget;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -31,6 +32,13 @@ class AdministrationPanelProvider extends PanelProvider
             ->id('administration')
             ->path('administration')
             ->login()
+            ->userMenuItems([
+                //'logout' => fn (Action $action) => $action->label('Log out'),
+                 Action::make('site')
+                    ->url('https://shop.kovcheg.lviv.ua/')
+                    ->icon('heroicon-o-home'),
+                // ...
+            ])
             ->colors([
                 'primary' => Color::Amber,
             ])

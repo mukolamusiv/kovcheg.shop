@@ -120,7 +120,7 @@ class Material extends Model
     }
 
 
-    public function isStockInsufficient($requiredQuantity)
+    public function isStockInsufficient($requiredQuantity) // Додано метод для перевірки, чи є недостатньо матеріалу на складі для виробництва
     {
         return $this->stock_quantity < $requiredQuantity;
     }

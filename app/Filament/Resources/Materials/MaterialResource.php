@@ -54,6 +54,20 @@ class MaterialResource extends Resource
         ];
     }
 
+
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'Кількість матеріалів, яких не вистачає для виробництва';
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) Material::query()
+            ->whereHas('requiredForProduction')
+            ->count();
+    }
+
+
     public static function getPages(): array
     {
         return [

@@ -84,6 +84,7 @@ class OrdersTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 \Filament\Tables\Filters\Filter::make('created_at')
                     ->label('Дата створення')

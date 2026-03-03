@@ -37,7 +37,8 @@ class OrderResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+
+        return static::getModel()::where('status', '!=', 'завершено')->count();
     }
 
     public static function form(Schema $schema): Schema

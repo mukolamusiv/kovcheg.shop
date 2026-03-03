@@ -34,7 +34,7 @@ class ProductionResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Виробництва';
 
-        public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): ?string
     {
         return static::getModel()::where('status', '!=', 'готово')->count();
     }
