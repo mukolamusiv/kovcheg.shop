@@ -33,7 +33,7 @@ class ProductionsTable
                 TextColumn::make('order_id')
                     ->label('ID замовлення')
                     ->numeric()
-                    ->url(fn ($record) => route('filament.administration.resources.orders.edit', $record->order_id))
+                    //->url(fn ($record) => route('filament.administration.resources.orders.edit', $record->order_id))
                     ->sortable(),
                 TextColumn::make('product.name')
                     ->label('Продукт')
