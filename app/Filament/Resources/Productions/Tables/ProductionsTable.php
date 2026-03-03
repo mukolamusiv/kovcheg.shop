@@ -27,9 +27,13 @@ class ProductionsTable
                     ->label('Загальна вартість')
                     ->numeric()
                     ->sortable(),
+                IconColumn::make('is_template')
+                    ->label('Шаблон')
+                    ->boolean(),
                 TextColumn::make('order_id')
                     ->label('ID замовлення')
                     ->numeric()
+                    ->url(fn ($record) => route('filament.administration.resources.orders.edit', $record->order_id))
                     ->sortable(),
                 TextColumn::make('product.name')
                     ->label('Продукт')
@@ -38,9 +42,7 @@ class ProductionsTable
                 TextColumn::make('status')
                     ->label('Статус')
                     ->searchable(),
-                IconColumn::make('is_template')
-                    ->label('Шаблон')
-                    ->boolean(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
