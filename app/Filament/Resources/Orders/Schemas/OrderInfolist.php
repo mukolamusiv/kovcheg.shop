@@ -32,6 +32,30 @@ class OrderInfolist
                 ->icon(Heroicon::InformationCircle)
                 //->aside()
                 ->headerActions([
+                    Action::make('status')
+                        ->label('Змінити статус замовлення')
+                        ->form([
+                            Select::make('status')
+                                ->label('Статус замовлення')
+                                ->options([
+                                    'очікується' => 'Очікується',
+                                    'в обробці' => 'В обробці',
+                                    'очікує доставки' => 'Очікує доставки',
+                                    'готове' => 'Готове',
+                                    'скасовано' => 'Скасовано',
+                                ])
+                                ->default(fn ($record) => $record->status)
+                                ->required(),
+                        ])
+                        ->action(function (array $data, $record) {
+                            $record->update([
+                                'status' => $data['status'],
+                            ]);
+                            Notification::make()
+                                ->title('Статус замовлення оновлено')
+                                ->success()
+                                ->send();
+                        }),
                     Action::make('start_production')
                         ->label('Виготовляти')
                         ->hidden(fn ($record) => $record->status != 'очікується')
