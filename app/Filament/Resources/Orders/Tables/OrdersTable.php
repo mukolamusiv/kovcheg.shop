@@ -28,8 +28,8 @@ class OrdersTable
                             'створено' => 'gray',
                             'оформлено' => 'info',
                             'виготовляється' => 'warning',
-                            'виготовлено' => 'success',
-                            'готове' => 'secondary',
+                            'виготовлено' => 'secondary',
+                            'готове' => 'success',
                             'скасовано' => 'danger',
                             default => 'info',
                         })
