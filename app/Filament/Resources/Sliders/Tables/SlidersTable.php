@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -20,7 +21,7 @@ class SlidersTable
                 TextColumn::make('subtitle')->sortable()->searchable(),
                 TextColumn::make('image_path')->sortable(),
                 TextColumn::make('link')->sortable(),
-                TextColumn::make('is_active')->boolean()->sortable(),
+                IconColumn::make('is_active')->boolean()->sortable(),
                // TextColumn::make('created_at')->dateTime()->sortable(),
             ])
             ->filters([
