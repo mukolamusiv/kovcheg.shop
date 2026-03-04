@@ -36,7 +36,7 @@ class ListOrders extends ListRecords
             'Виготовлено' => Tab::make()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'виготовлено')),
             'Готові' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'готово')),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'готове')),
             'Скасовані' => Tab::make()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'скасовано')),
             // 'Шаблони' => Tab::make()
