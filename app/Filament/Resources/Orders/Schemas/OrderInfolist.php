@@ -38,9 +38,9 @@ class OrderInfolist
                             Select::make('status')
                                 ->label('Статус замовлення')
                                 ->options([
-                                    'очікується' => 'Очікується',
-                                    'в обробці' => 'В обробці',
-                                    'очікує доставки' => 'Очікує доставки',
+                                    'оформалено' => 'Оформлено',
+                                    'виготовлено' => 'Виготовлено',
+                                    //'очікує доставки' => 'Очікує доставки',
                                     'готове' => 'Готове',
                                     'скасовано' => 'Скасовано',
                                 ])
@@ -72,19 +72,19 @@ class OrderInfolist
                                 // }
                             }
                             $record->update([
-                                'status' => 'в обробці',
+                                'status' => 'оформлено',
                             ]);
 
                             Notification::make()
                                 ->title('Статус замовлення оновлено')
-                                ->body('Зімнено статус замовлення на "в обробці" та розпочато виготовлення продукції.')
+                                ->body('Зімнено статус замовлення на "оформлено" та розпочато виготовлення продукції.')
                                 ->success()
                                 ->send();
                         }),
 
                         Action::make('end_production')
                         ->label('Завершити виготовлення')
-                        ->hidden(fn ($record) => $record->status != 'в обробці')
+                        ->hidden(fn ($record) => $record->status != 'оформлено')
                         ->color('success')
                         ->icon(Heroicon::StopCircle)
                         ->action(function (array $data, $record) {
@@ -113,10 +113,10 @@ class OrderInfolist
                      TextEntry::make('status')
                             ->color(
                                 fn (string $state): string => match ($state) {
-                                    'очікується' => 'info',
+                                    'оформлено' => 'info',
                                     'готове' => 'success',
                                     'скасовано' => 'danger',
-                                    'в обробці' => 'primary',
+                                    'виготовлено' => 'primary',
                                     default => 'secondary',
                                 })
                             //     [
