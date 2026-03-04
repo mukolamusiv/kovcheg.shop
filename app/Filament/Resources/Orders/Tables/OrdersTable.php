@@ -84,6 +84,7 @@ class OrdersTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->paginated([10, 25, 50, 100, 'all'])
             ->defaultSort('created_at', 'desc')
             ->filters([
                 \Filament\Tables\Filters\Filter::make('created_at')
