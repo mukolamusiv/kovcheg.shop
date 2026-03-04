@@ -11,6 +11,7 @@ use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Notifications\Notification;
 
 class CustumerInfolist
@@ -130,6 +131,31 @@ class CustumerInfolist
                             ->columnSpanFull()
                             ->label('Розміри'),
                     ]),
+
+                    Section::make('Історія замовлень')
+                        ->columnSpanFull()
+                    ->schema([
+                        RepeatableEntry::make('orders')
+                            ->label('Замовлення')
+                            ->columns(2)
+                            //->relationship('orders') // Вказуємо зв'язок з моделлю замовлень
+                            ->schema([
+                                TextEntry::make('id')
+                                    ->label('ID замовлення'),
+                                TextEntry::make('total_amount')
+                                    ->label('Загальна сума')
+                                    ->money('UAH'),
+                                TextEntry::make('status')
+                                    ->label('Статус')
+                                    ->badge(),
+                                // TextEntry::make('created_at')
+                                //     ->label('Дата створення')
+                                //     ->dateTime(),
+                                Action::make('view_order')
+                                    ->label('Переглянути замовлення')
+                                    ->url(fn ($record) => route('filament.administration.resources.orders.view', ['record' => $record->id]))
+                        ]),
+                    ])
             ]);
     }
 }
