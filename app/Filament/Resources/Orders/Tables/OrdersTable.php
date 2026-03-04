@@ -29,7 +29,7 @@ class OrdersTable
                             'оформлено' => 'info',
                             'виготовляється' => 'warning',
                             'виготовлено' => 'success',
-                            'завершено' => 'secondary',
+                            'готове' => 'secondary',
                             'скасовано' => 'danger',
                             default => 'info',
                         })
