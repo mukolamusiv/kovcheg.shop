@@ -115,7 +115,7 @@ class SupplinerInfolist
                             ->label('Адреса'),
                         TextEntry::make('supplier.city')
                             ->label('Місто'),
-                        Textarea::make('supplier.note')
+                        TextEntry::make('supplier.note')
                             ->label('Примітка'),
                     ]),
             ]);
