@@ -26,7 +26,7 @@ class ProductResource extends Resource
     protected static ?string $recordTitleAttribute = 'name';
 
 
-    protected static string|UnitEnum|null $navigationGroup = 'Продукти';
+      protected static string|UnitEnum|null $navigationGroup = 'Сайт';
 
     protected static ?string $navigationLabel = 'Продукти';
 
