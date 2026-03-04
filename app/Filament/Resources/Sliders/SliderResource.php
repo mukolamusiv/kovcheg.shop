@@ -24,7 +24,6 @@ class SliderResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
 
-
     protected static string|UnitEnum|null $navigationGroup = 'Сайт';
 
     protected static ?string $navigationLabel = 'Слайдери';
