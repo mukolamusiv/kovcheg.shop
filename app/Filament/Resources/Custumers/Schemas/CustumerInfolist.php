@@ -93,17 +93,19 @@ class CustumerInfolist
                                 $customer = $record->customer;
                                 return [
                                     'customer' => [
-                                        'phone' => $customer->phone,
-                                        'address' => $customer->address,
-                                        'city' => $customer->city,
-                                        'date_of_birth' => $customer->date_of_birth,
-                                        'note' => $customer->note,
-                                        'measurements' => $customer->measurements,
+                                        'phone' => $customer->phone ?? '',
+                                        'address' => $customer->address ?? '',
+                                        'city' => $customer->city ?? '',
+                                        'date_of_birth' => $customer->date_of_birth ?? '',
+                                        'note' => $customer->note ?? '',
+                                        'measurements' => $customer->measurements ?? '',
                                     ],
                                 ];
                             })
                             ->action(function ($record, $data) {
+                               // dd($data, $record,$data['customer']);
                                 $record->customer()->update($data['customer']);
+                               // $record->customer()->save();
                                 $record->save();
                                 Notification::make()
                                     ->title('Детальна інформація про клієнта оновлена')
