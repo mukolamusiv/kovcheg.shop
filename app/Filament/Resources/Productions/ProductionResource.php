@@ -14,10 +14,12 @@ use App\Filament\Resources\Productions\Tables\ProductionsTable;
 use App\Models\Production;
 use BackedEnum;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductionResource extends Resource
 {
@@ -70,6 +72,20 @@ class ProductionResource extends Resource
             'create' => CreateProduction::route('/create'),
             'view' => ViewProduction::route('/{record}'),
             'edit' => EditProduction::route('/{record}/edit'),
+        ];
+    }
+
+
+    public function getTabs(): array
+    {
+        return [
+            'Всі' => Tab::make(),
+            'Виготовлені' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'виготовляється')),
+            'Готові' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'готово')),
+            'Шаблони' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('is_template', true)),
         ];
     }
 }
