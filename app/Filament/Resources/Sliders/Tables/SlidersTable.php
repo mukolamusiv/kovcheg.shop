@@ -20,7 +20,7 @@ class SlidersTable
                //TextColumn::make('id')->sortable(),
                 TextColumn::make('title')->sortable()->searchable(),
                 TextColumn::make('subtitle')->sortable()->searchable(),
-                ImageColumn::make('image_path'),
+                ImageColumn::make('image_path')->disk('public')->path('storage/'),
                 TextColumn::make('link')->sortable(),
                 IconColumn::make('is_active')->boolean()->sortable(),
                // TextColumn::make('created_at')->dateTime()->sortable(),
