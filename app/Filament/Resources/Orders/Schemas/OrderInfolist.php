@@ -520,6 +520,14 @@ class OrderInfolist
                     ])
                     ->columnSpanFull(),
                 Section::make('Клієнт')
+                    ->headerActions([
+                        Action::make('view_customer')
+                            ->label('Переглянути клієнта')
+                            ->color('primary')
+                            ->icon(Heroicon::Eye)
+                            ->url(fn ($record) => route('filament.administration.resources.custumers.view', $record->customer->id ?? null)),
+
+                    ])
                     ->schema([
                         TextEntry::make('customer.name')
                             ->label('Клієнт')
