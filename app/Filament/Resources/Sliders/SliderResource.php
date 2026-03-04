@@ -15,12 +15,25 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class SliderResource extends Resource
 {
     protected static ?string $model = Slider::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+
+
+    protected static string|UnitEnum|null $navigationGroup = 'Сайт';
+
+    protected static ?string $navigationLabel = 'Слайдери';
+
+    protected static ?string $pluralModelLabel = 'Слайдери';
+
+    protected static ?string $modelLabel = 'Слайдер';
+
+
 
     protected static ?string $recordTitleAttribute = 'title';
 
