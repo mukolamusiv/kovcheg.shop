@@ -18,11 +18,11 @@ class SlidersTable
         return $table
             ->columns([
                //TextColumn::make('id')->sortable(),
-                TextColumn::make('title')->sortable()->searchable(),
-                TextColumn::make('subtitle')->sortable()->searchable(),
-                ImageColumn::make('image_path')->disk('public')->path('storage/'),
-                TextColumn::make('link')->sortable(),
-                IconColumn::make('is_active')->boolean()->sortable(),
+                TextColumn::make('title')->label('Заголовок')->sortable()->searchable(),
+                TextColumn::make('subtitle')->label('Підзаголовок')->sortable()->searchable(),
+                ImageColumn::make('image_path')->disk('public')->label('Зображення'),
+                TextColumn::make('link')->label('Посилання')->sortable(),
+                IconColumn::make('is_active')->label('Активний')->boolean()->sortable(),
                // TextColumn::make('created_at')->dateTime()->sortable(),
             ])
             ->filters([
