@@ -87,7 +87,7 @@ class SupplinerInfolist
                             ])->fillForm(function ($record) {
                                 $supplier = $record->supplier;
                                 return [
-                                    'supplier' => [
+                                    'customer' => [
                                         'phone' => $supplier->phone ?? '',
                                         'company_name' => $supplier->company_name ?? '',
                                         'address' => $supplier->address ?? '',
@@ -97,7 +97,7 @@ class SupplinerInfolist
                                 ];
                             })
                             ->action(function ($record, $data) {
-                                $record->supplier()->update($data['supplier']);
+                                $record->customer()->update($data['customer']);
                                 $record->save();
                                 Notification::make()
                                     ->title('Детальна інформація про постачальника оновлена')
