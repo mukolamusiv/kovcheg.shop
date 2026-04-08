@@ -80,6 +80,7 @@ class InvoiceForm
                             ->label('Ціна за одиницю')
                             ->required()
                             ->numeric()
+                            ->reactive()
                             ->default(fn ($get) => $get('material_id') ? Material::find($get('material_id'))->price_per_unit : 0),
                         // TextInput::make('total_price')
                         //     ->label('Загальна ціна (в копійках)')
@@ -87,7 +88,7 @@ class InvoiceForm
                         //     ->numeric()
                         //     ->default(0),
                     ])
-                    ->columns(2)
+                    ->columns(3)
                     ->required(),
             ]);
     }
