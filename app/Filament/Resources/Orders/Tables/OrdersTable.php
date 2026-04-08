@@ -20,6 +20,7 @@ class OrdersTable
             ->columns([
                 TextColumn::make('customer.name')
                     ->label('Замовник')
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Статус замовлення')
