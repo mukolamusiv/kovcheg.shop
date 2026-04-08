@@ -42,6 +42,15 @@ class Order extends Model
         }
         $this->total_amount = $total;
         $this->save();
+
+
+        // перевірка цілісності транзакцій  та оплати замовлення
+        $this->paid_for();
+        // $this->verifyTransactions();
+        // $this->statusPayment();
+        $this->paid_amount = $this->paid_for();
+        $this->save();
+
         //$this->total_amount = $this->orderItems->sum('total');
         $this->due_amount = $this->total_amount - $this->discount_amount - $this->paid_amount;
         //dd($this, $this->orderItems, $total, $this->total_amount, $this->discount_amount, $this->paid_amount);
@@ -57,6 +66,17 @@ class Order extends Model
     {
         //dd($this->transactions()->where('transaction_type', 'витрати')->sum('amount'));
         return $this->transactions()->where('transaction_type', 'надходження')->sum('amount');
+    }
+
+    public function verifyTransactions()
+    {
+        /**
+         * Перевіряє чи сходиться сума транзакцій із оплаченою сумою
+         *
+         * @return bool Повертає true, якщо суми сходяться, інакше false
+         */
+        $transactionSum = $this->paid_for();
+        return $transactionSum == $this->paid_amount;
     }
 
     public function statusPayment()
