@@ -29,6 +29,10 @@ class Invoice extends Model
             $date = now()->format('Ymd');
             $nextId = str_pad(self::max('id') + 1, 4, '0', STR_PAD_LEFT);
             $invoice->invoice_number = 'INV-' . $date . '-' . $nextId;
+
+            foreach ($invoice->items as $item) {
+                $item->material->cost_per_unit = $item->price_per_unit;
+            }
         });
 
         // static::created(function ($invoice) {

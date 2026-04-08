@@ -76,11 +76,11 @@ class InvoiceForm
                             ->inputMode('decimal')
                             ->step(0.01)
                             ->default(1),
-                        // TextInput::make('price_per_unit')
-                        //     ->label('Ціна за одиницю (в копійках)')
-                        //     ->required()
-                        //     ->numeric()
-                        //     ->default(0),
+                        TextInput::make('price_per_unit')
+                            ->label('Ціна за одиницю')
+                            ->required()
+                            ->numeric()
+                            ->default(fn ($get) => $get('material_id') ? Material::find($get('material_id'))->price_per_unit : 0),
                         // TextInput::make('total_price')
                         //     ->label('Загальна ціна (в копійках)')
                         //     ->required()
