@@ -101,7 +101,7 @@ class Production extends Model
 
         $this->cost_price = $materialsCost + $stagesCost;
         $this->total_cost = $this->cost_price + $this->mark_up;
-        $this->total_cost = $this->total_cost * ($this->orderItems->quantity ?? 1);
+        $this->total_cost = $this->total_cost ;//* ($this->orderItems->quantity ?? 1);
         $this->save();
 
         return  $this->total_cost;
