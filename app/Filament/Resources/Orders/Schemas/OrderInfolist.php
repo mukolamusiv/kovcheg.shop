@@ -32,6 +32,27 @@ class OrderInfolist
                 ->icon(Heroicon::InformationCircle)
                 //->aside()
                 ->headerActions([
+                    Action::make('fixed_price')
+                        ->label(fn ($record) => $record->is_fixed_price ? 'Зняти фіксовану ціну' : 'Встановити фіксовану ціну')
+                        ->color(fn ($record) => $record->is_fixed_price ?   'danger' : 'success')
+                        ->icon(fn ($record) => $record->is_fixed_price ? Heroicon::XMark : Heroicon::Check)
+                        ->action(function (array $data, $record) {
+                            $record->update([
+                                'is_fixed_price' => !$record->is_fixed_price,
+                            ]);
+                            if($record->is_fixed_price){
+                                Notification::make()
+                                ->title('Замовлення тепер має фіксовану ціну')
+                                ->success()
+                                ->send();
+                            }else{
+                                Notification::make()
+                                ->title('Замовлення більше не має фіксованої ціни')
+                                ->success()
+                                ->send();
+                            }
+
+                        }),
                     Action::make('status')
                         ->label('Змінити статус замовлення')
                         ->form([

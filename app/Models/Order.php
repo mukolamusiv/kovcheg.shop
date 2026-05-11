@@ -17,6 +17,7 @@ class Order extends Model
         'notes',
         'delivery',
         'status',
+        'is_fixed_price',
     ];
 
     public function customer()
@@ -37,11 +38,15 @@ class Order extends Model
     public function calculateTotals()
     {
         $total = 0;
-        foreach($this->orderItems as $item){
-           $total += $item->calculate();
+        if($this->is_fixed_price){
+            $total = $this->total_amount;
+        }else{
+            foreach($this->orderItems as $item){
+            $total += $item->calculate();
+            }
+            $this->total_amount = $total;
+            $this->save();
         }
-        $this->total_amount = $total;
-        $this->save();
 
 
         // перевірка цілісності транзакцій  та оплати замовлення
