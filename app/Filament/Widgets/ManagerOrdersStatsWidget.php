@@ -4,16 +4,25 @@ namespace App\Filament\Widgets;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
-class ManagerOrdersStatsWidget extends StatsOverviewWidget
+class ManagerOrdersStatsWidget extends StatsOverviewWidget implements HasActions
 {
+    use InteractsWithActions;
+
     protected static bool $isDiscovered = false;
+
+    protected string $view = 'filament.widgets.manager-orders-stats-widget';
 
     protected int | string | array $columnSpan = 'full';
 
@@ -62,7 +71,49 @@ class ManagerOrdersStatsWidget extends StatsOverviewWidget
                                     ->required(),
                             ]),
                     ]),
-                Section::make()
+                Section::make('Підсумки')
+                    ->headerActions([
+                        Action::make('changeCommissionPercent')
+                            ->label('Змінити відсоток')
+                            ->icon('heroicon-o-pencil-square')
+                            ->color('gray')
+                            ->visible(fn (): bool => auth()->user()?->role === 'admin')
+                            ->form([
+                                TextInput::make('commission_percent')
+                                    ->label('Відсоток від суми замовлень')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->maxValue(100)
+                                    ->step(0.01)
+                                    ->suffix('%')
+                                    ->required(),
+                            ])
+                            ->fillForm(function (): array {
+                                $user = User::find($this->userId);
+
+                                return [
+                                    'commission_percent' => $user?->commission_percent ?? 1,
+                                ];
+                            })
+                            ->action(function (array $data): void {
+                                $user = User::find($this->userId);
+
+                                if (! $user) {
+                                    return;
+                                }
+
+                                $user->update([
+                                    'commission_percent' => $data['commission_percent'],
+                                ]);
+
+                                $this->cachedStats = null;
+
+                                Notification::make()
+                                    ->title('Відсоток зарплати оновлено')
+                                    ->success()
+                                    ->send();
+                            }),
+                    ])
                     ->schema($this->getCachedStats())
                     ->columns($this->getColumns())
                     ->contained(false)
@@ -83,12 +134,13 @@ class ManagerOrdersStatsWidget extends StatsOverviewWidget
         }
 
         $stats = $user->getManagerOrderStats($this->dateFrom, $this->dateTo);
+        $commissionPercent = (float) ($user->commission_percent ?? 1);
 
         $periodLabel = Carbon::parse($this->dateFrom)->format('d.m.Y')
             . ' — '
             . Carbon::parse($this->dateTo)->format('d.m.Y');
 
-        $managerSalary = $stats['total_amount'] * 0.01;
+        $managerSalary = $stats['total_amount'] * ($commissionPercent / 100);
 
         return [
             Stat::make('Додано замовлень', (string) $stats['added_count'])
@@ -103,7 +155,7 @@ class ManagerOrdersStatsWidget extends StatsOverviewWidget
                 ->color('warning')
                 ->icon('heroicon-o-banknotes'),
             Stat::make('Зарплата менеджера', number_format($managerSalary, 2, '.', ' ') . ' ₴')
-                ->description('1% від суми замовлень')
+                ->description(number_format($commissionPercent, 2, '.', '') . '% від суми замовлень')
                 ->color('info')
                 ->icon('heroicon-o-banknotes'),
         ];
