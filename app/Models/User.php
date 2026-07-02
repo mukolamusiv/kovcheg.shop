@@ -66,4 +66,35 @@ class User extends Authenticatable
     {
         return $this->hasMany(Expense::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function managedTransactions()
+    {
+        return $this->hasMany(Transaction::class, 'manager_id');
+    }
+
+    public function supplierInvoices()
+    {
+        return $this->hasMany(Invoice::class, 'supplier_id');
+    }
+
+    public function assignedStages()
+    {
+        return $this->hasMany(ProductionStage::class, 'assigned_to');
+    }
+
+    public static function roleLabels(): array
+    {
+        return [
+            'admin' => 'Адміністратор',
+            'manager' => 'Менеджер',
+            'employee' => 'Працівник',
+            'supplier' => 'Постачальник',
+            'customer' => 'Клієнт',
+        ];
+    }
 }
