@@ -111,6 +111,27 @@ class User extends Authenticatable
         return in_array($this->role, ['manager', 'admin'], true);
     }
 
+    public static function canViewFinancialStats(?self $viewer, self $subject): bool
+    {
+        if (! $viewer) {
+            return false;
+        }
+
+        if ($viewer->role === 'admin') {
+            return true;
+        }
+
+        if ($viewer->role === 'manager') {
+            if ($viewer->id === $subject->id) {
+                return true;
+            }
+
+            return ! $subject->isManagerRole();
+        }
+
+        return $viewer->id === $subject->id;
+    }
+
     /**
      * @return array{added_count: int, completed_count: int, total_amount: float}
      */

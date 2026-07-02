@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class ProfitWidget extends ChartWidget
 {
-    protected ?string $heading = 'Profit Widget';
+    protected ?string $heading = 'Чистий прибуток';
+
+    public static function canView(): bool
+    {
+        return auth()->user()?->role !== 'manager';
+    }
 
     protected function getData(): array
     {

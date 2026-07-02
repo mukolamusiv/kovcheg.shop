@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Users\Pages;
 
 use App\Filament\Resources\Users\UserResource;
 use App\Filament\Widgets\ManagerOrdersStatsWidget;
+use App\Models\User;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Database\Eloquent\Model;
@@ -26,13 +27,19 @@ class ViewUser extends ViewRecord
 
     protected function getHeaderWidgets(): array
     {
-        if (! $this->getRecord()->isManagerRole()) {
+        $record = $this->getRecord();
+
+        if (! $record->isManagerRole()) {
+            return [];
+        }
+
+        if (! User::canViewFinancialStats(auth()->user(), $record)) {
             return [];
         }
 
         return [
             ManagerOrdersStatsWidget::make([
-                'userId' => $this->getRecord()->id,
+                'userId' => $record->id,
             ]),
         ];
     }

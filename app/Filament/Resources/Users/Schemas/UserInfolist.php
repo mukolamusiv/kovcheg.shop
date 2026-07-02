@@ -22,6 +22,8 @@ class UserInfolist
 {
     public static function configure(Schema $schema): Schema
     {
+        $canViewFinancialStats = fn (User $record): bool => User::canViewFinancialStats(auth()->user(), $record);
+
         return $schema
             ->components([
                 Grid::make([
@@ -71,6 +73,7 @@ class UserInfolist
                         Section::make('Підсумки')
                             ->icon(Heroicon::ChartBar)
                             ->columnSpan(1)
+                            ->visible($canViewFinancialStats)
                             ->schema([
                                 TextEntry::make('orders_count')
                                     ->label('Замовлень')
@@ -158,7 +161,7 @@ class UserInfolist
                 Section::make('Замовлення')
                     ->icon(Heroicon::ShoppingBag)
                     ->columnSpanFull()
-                    ->visible(fn (User $record): bool => $record->orders->isNotEmpty())
+                    ->visible(fn (User $record): bool => $canViewFinancialStats($record) && $record->orders->isNotEmpty())
                     ->schema([
                         RepeatableEntry::make('orders')
                             ->label('')
@@ -196,7 +199,7 @@ class UserInfolist
                 Section::make('Накладні постачальника')
                     ->icon(Heroicon::DocumentText)
                     ->columnSpanFull()
-                    ->visible(fn (User $record): bool => $record->supplierInvoices->isNotEmpty())
+                    ->visible(fn (User $record): bool => $canViewFinancialStats($record) && $record->supplierInvoices->isNotEmpty())
                     ->schema([
                         RepeatableEntry::make('supplierInvoices')
                             ->label('')
@@ -225,7 +228,7 @@ class UserInfolist
                 Section::make('Зарплати')
                     ->icon(Heroicon::Banknotes)
                     ->columnSpanFull()
-                    ->visible(fn (User $record): bool => $record->salaries->isNotEmpty())
+                    ->visible(fn (User $record): bool => $canViewFinancialStats($record) && $record->salaries->isNotEmpty())
                     ->schema([
                         RepeatableEntry::make('salaries')
                             ->label('')
@@ -261,7 +264,7 @@ class UserInfolist
                 Section::make('Витрати')
                     ->icon(Heroicon::ReceiptPercent)
                     ->columnSpanFull()
-                    ->visible(fn (User $record): bool => $record->expenses->isNotEmpty())
+                    ->visible(fn (User $record): bool => $canViewFinancialStats($record) && $record->expenses->isNotEmpty())
                     ->schema([
                         RepeatableEntry::make('expenses')
                             ->label('')
@@ -300,7 +303,7 @@ class UserInfolist
                 Section::make('Транзакції (учасник)')
                     ->icon(Heroicon::ArrowsRightLeft)
                     ->columnSpanFull()
-                    ->visible(fn (User $record): bool => $record->transactions->isNotEmpty())
+                    ->visible(fn (User $record): bool => $canViewFinancialStats($record) && $record->transactions->isNotEmpty())
                     ->schema([
                         RepeatableEntry::make('transactions')
                             ->label('')
@@ -336,7 +339,7 @@ class UserInfolist
                 Section::make('Проведені операції (менеджер)')
                     ->icon(Heroicon::ClipboardDocumentCheck)
                     ->columnSpanFull()
-                    ->visible(fn (User $record): bool => $record->managedTransactions->isNotEmpty())
+                    ->visible(fn (User $record): bool => $canViewFinancialStats($record) && $record->managedTransactions->isNotEmpty())
                     ->schema([
                         RepeatableEntry::make('managedTransactions')
                             ->label('')
@@ -372,7 +375,7 @@ class UserInfolist
                 Section::make('Етапи виробництва')
                     ->icon(Heroicon::WrenchScrewdriver)
                     ->columnSpanFull()
-                    ->visible(fn (User $record): bool => $record->assignedStages->isNotEmpty())
+                    ->visible(fn (User $record): bool => $canViewFinancialStats($record) && $record->assignedStages->isNotEmpty())
                     ->schema([
                         RepeatableEntry::make('assignedStages')
                             ->label('')
