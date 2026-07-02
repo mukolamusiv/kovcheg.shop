@@ -1,36 +1,43 @@
 <?php
 
-namespace App\Filament\Resources\Transactions\Schemas;
+namespace App\Filament\Resources\Expenses\Schemas;
 
+use App\Models\Account;
+use App\Models\Expense;
 use App\Models\User;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
-class CostsForm
+class AddExpenseForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
+                Select::make('category')
+                    ->label('Категорія')
+                    ->options(Expense::CATEGORIES)
+                    ->searchable()
+                    ->required(),
                 Select::make('account_id')
                     ->label('Рахунок')
-                    ->relationship('account', 'account_name')
                     ->searchable()
                     ->preload()
-                    ->required(),
+                    ->required()
+                    ->options(fn () => Account::pluck('account_name', 'id')),
                 TextInput::make('amount')
                     ->label('Сума')
                     ->numeric()
                     ->required()
                     ->minValue(0.01),
-                Textarea::make('description')
-                    ->label('Опис витрати')
+                TextInput::make('description')
+                    ->label('Опис')
                     ->required()
-                    ->columnSpanFull(),
-                DateTimePicker::make('transaction_date')
+                    ->maxLength(255),
+                DatePicker::make('expense_date')
                     ->label('Дата')
                     ->default(now())
                     ->required(),
@@ -38,9 +45,11 @@ class CostsForm
                     ->label('Отримувач')
                     ->searchable()
                     ->preload()
-                    ->default(fn () => auth()->id())
                     ->options(fn () => User::whereIn('role', ['employee', 'manager', 'admin', 'supplier'])
                         ->pluck('name', 'id')),
+                Textarea::make('notes')
+                    ->label('Примітки')
+                    ->columnSpanFull(),
             ]);
     }
 }

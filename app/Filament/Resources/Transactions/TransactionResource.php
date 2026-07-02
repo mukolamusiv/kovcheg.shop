@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Transactions;
 
-use App\Filament\Resources\Transactions\Pages\CostsTransaction;
 use App\Filament\Resources\Transactions\Pages\CreateTransaction;
 use App\Filament\Resources\Transactions\Pages\EditTransaction;
 use App\Filament\Resources\Transactions\Pages\ListTransactions;
@@ -64,7 +63,6 @@ class TransactionResource extends Resource
             'create' => CreateTransaction::route('/create'),
             'view' => ViewTransaction::route('/{record}'),
             'edit' => EditTransaction::route('/{record}/edit'),
-            'costs' => CostsTransaction::route('/costs'),
         ];
     }
 }
