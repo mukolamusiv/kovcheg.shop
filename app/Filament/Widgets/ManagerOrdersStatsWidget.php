@@ -19,7 +19,7 @@ class ManagerOrdersStatsWidget extends StatsOverviewWidget
 
     protected ?string $heading = 'Статистика замовлень менеджера';
 
-    protected int | array | null $columns = 3;
+    protected int | array | null $columns = 4;
 
     public ?int $userId = null;
 
@@ -88,6 +88,8 @@ class ManagerOrdersStatsWidget extends StatsOverviewWidget
             . ' — '
             . Carbon::parse($this->dateTo)->format('d.m.Y');
 
+        $managerSalary = $stats['total_amount'] * 0.01;
+
         return [
             Stat::make('Додано замовлень', (string) $stats['added_count'])
                 ->description('За період: ' . $periodLabel)
@@ -99,6 +101,10 @@ class ManagerOrdersStatsWidget extends StatsOverviewWidget
             Stat::make('Загальна сума', number_format($stats['total_amount'], 2, '.', ' ') . ' ₴')
                 ->description('Сума доданих замовлень')
                 ->color('warning')
+                ->icon('heroicon-o-banknotes'),
+            Stat::make('Зарплата менеджера', number_format($managerSalary, 2, '.', ' ') . ' ₴')
+                ->description('1% від суми замовлень')
+                ->color('info')
                 ->icon('heroicon-o-banknotes'),
         ];
     }
