@@ -27,6 +27,7 @@ class CreateOrder extends CreateRecord
             // 1️⃣ Створюємо замовлення
             $order = Order::create([
                 'customer_id' => $data['customer_id'],
+                'manager_id' => auth()->id(),
                 'deadline' => $data['deadline'] ?? null,
                 'notes' => $data['notes'] ?? null,
                 'total_amount' => 0,

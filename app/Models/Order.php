@@ -8,6 +8,7 @@ class Order extends Model
 {
     protected $fillable = [
         'customer_id',
+        'manager_id',
         'total_amount',
         'discount_amount',
         'paid_amount',
@@ -23,6 +24,11 @@ class Order extends Model
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
     }
 
     public function orderItems()

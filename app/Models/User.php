@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -57,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 
+    public function managedOrders()
+    {
+        return $this->hasMany(Order::class, 'manager_id');
+    }
+
     public function salaries()
     {
         return $this->hasMany(Salary::class);
@@ -95,6 +101,34 @@ class User extends Authenticatable
             'employee' => 'Працівник',
             'supplier' => 'Постачальник',
             'customer' => 'Клієнт',
+        ];
+    }
+
+    public function isManagerRole(): bool
+    {
+        return in_array($this->role, ['manager', 'admin'], true);
+    }
+
+    /**
+     * @return array{added_count: int, completed_count: int, total_amount: float}
+     */
+    public function getManagerOrderStats(string $from, string $to): array
+    {
+        $fromDate = Carbon::parse($from)->startOfDay();
+        $toDate = Carbon::parse($to)->endOfDay();
+
+        $addedQuery = $this->managedOrders()
+            ->whereBetween('created_at', [$fromDate, $toDate]);
+
+        $completedCount = $this->managedOrders()
+            ->where('status', 'готове')
+            ->whereBetween('updated_at', [$fromDate, $toDate])
+            ->count();
+
+        return [
+            'added_count' => (clone $addedQuery)->count(),
+            'completed_count' => $completedCount,
+            'total_amount' => (float) (clone $addedQuery)->sum('total_amount'),
         ];
     }
 }
