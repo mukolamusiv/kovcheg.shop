@@ -19,4 +19,9 @@ class Salary extends Model
         'productions' => 'array',
         'salary_date' => 'date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
